@@ -34,6 +34,12 @@
 	<beans:bean id="userbean" class="github.arenaaa.travelmap.dao.UserDao">
 	</beans:bean>
 	
+	<!--
+	   component-scan은 주어진 패키지 밑에 있는 모든 클래스들을 가져다가 조사를 합니다.
+	   무슨 조사? : 특정 어노테이션이 붙어있는 클래스(@Component, @Controller 등등)을 가져다가
+	              그 안에 있는 메소드가 필드들에 다시 특정 어노테이션이 있는 애들을 골라서 어떤(?) 처리를 해줍니다.
+	               
+	 -->
 	<context:component-scan base-package="github.arenaaa.travelmap" />
 	
 	

@@ -6,6 +6,19 @@ public class UserVO {
 	private String userid;
 	private String password;
 	private String email;
+	
+	
+	public UserVO() {
+		
+	}
+	public UserVO(int seq, String userid, String password, String email) {
+		super();
+		this.seq = seq;
+		this.userid = userid;
+		this.password = password;
+		this.email = email;
+	}
+	
 	public int getSeq() {
 		return seq;
 	}

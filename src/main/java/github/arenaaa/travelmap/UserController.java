@@ -2,7 +2,9 @@ package github.arenaaa.travelmap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +16,7 @@ import github.arenaaa.travelmap.vo.UserVO;
 @Controller
 public class UserController {
 
+	@Autowired
 	private UserDao userDao ;
 	
 	public String pageLogin() {
@@ -54,7 +57,7 @@ public class UserController {
 		UserDao udao = new UserDao();
 		udao.insertUser(uservo);
 		
-		return "welcome";
+		return "welcome"; // return "redirect:/success";
 	}
 	/*
 	@RequestMapping(value="/welcome", method=RequestMethod.GET)
@@ -62,4 +65,34 @@ public class UserController {
 		return "welcome";
 	}
 	*/
+	
+	@RequestMapping(value="/login", method = RequestMethod.GET)
+	public String login_ok( HttpServletRequest req ){
+		req.setAttribute ( "msg", "WELCOME!");
+		return "login"; // forwarding
+	}
+	
+	@RequestMapping(value="/doLogin", method = RequestMethod.POST)
+	public String doLogin( HttpServletRequest req, HttpSession session ) {
+		String userid = req.getParameter("uid");
+		String password = req.getParameter("pw");
+
+		UserVO loginUser = userDao.Login( userid, password );
+		if ( loginUser != null ){
+			// header.jsp에서 로그인 여부를 판별할때 아래의 loginUser를 el태그에서 사용하게 됩니다.
+			session.setAttribute("loginUser", loginUser );
+			return "redirect:/";
+		} else {
+			return "/login";
+		}
+		
+	}
+	
+	@RequestMapping(value="/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session ) {
+		session.invalidate();
+		return "redirect:/";
+	}
+	
+	
 }
