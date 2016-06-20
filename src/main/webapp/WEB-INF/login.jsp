@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 	<head>
+		<title>로그인</title>
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
@@ -26,18 +27,17 @@
 		<div class="container">
           <div class="SignUp">
               <div class="heading">
-                <h1>회원가입</h1>
+                <h1>로그인</h1>
                 <img class="portrait" src="">
                 <svg class="slant" viewBox="0 0 1 1" preserveAspectRatio="none">
                   <polygon points="0,1 1,1 1,0">
                 </svg>
               </div>
               
-              <form action = "/travelmap/doJoin" method = "post">
+              <form action = "/travelmap/doLogin" method = "post">
               	<input type="text" placeholder="your name" name="uid">
-                <input type="email" placeholder="email" name="email">
                 <input type="password" placeholder="password" name="pw">
-                <button type="submit" class="form-control">Create Account</button>
+                <button type="submit" class="form-control">로그인</button>
               </form>
               
               
