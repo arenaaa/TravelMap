@@ -17,7 +17,7 @@ import github.arenaaa.travelmap.vo.UserVO;
 public class UserController {
 
 	@Autowired
-	private UserDao userDao ;
+	private UserDao userDao ; //userDao 생성해줌
 	
 	public String pageLogin() {
 		return "login";
@@ -92,6 +92,11 @@ public class UserController {
 	public String logout(HttpSession session ) {
 		session.invalidate();
 		return "redirect:/";
+	}
+	
+	@RequestMapping(value="/update", method = RequestMethod.GET)
+	public String update(HttpServletRequest req, HttpSession session) {
+		return "/update";
 	}
 	
 	

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -56,7 +57,10 @@
                 <div id="map"></div> 
                 <div id="gh-info">
                 	<div id="overview">
-	                	<h3><span id="gh-name"></span> [ <a id="gh-link" href="#">LINK</a> ] </h3>
+	                	<h3><span id="gh-name"></span> [ <a id="gh-link" href="#">LINK</a> ] 
+	                	<c:if test="${not empty loginUser }"><button type="button" class="btn btn-success btn-xs">추가</button></c:if>
+	                	</h3>
+	                	
 	                	<ul>
 		                	<li>010-3333-2233</li>
 		                	<li>addr@naver.com</li>
@@ -197,17 +201,29 @@
     
     function addClickListener ( infowin, map, marker, gh) {
      	
-    	var template = '<a href={0}>{1}</a>';
+    	var template = '<a href={0}><i>{1}</i></a><br><c:if test="${not empty loginUser }">' + 
+    					'<button type="button" id="{id}" class="btn btn-success btn-xs">추가</button></c:if>	';
     	
     	marker.addListener('click', function ( ){
     		var content = template.replace("{0}", gh.url)
-    		                      .replace("{1}", gh.name);
+    		                      .replace("{1}", gh.name)
+    		                      .replace("{id}", 'gh' + gh.id); // id="btn"
     		infowin.setContent(content);
     	    infowin.open ( map, marker );
     	    var pos = marker.getPosition();
     	    map.panTo ( pos );
     	    console.log("콜백 실행됐음");
     	    
+    	    $('#gh' + gh.id ).on( 'click', function(evt) {
+    	    	var ghId = $(evt.target).attr('id').substring(2);
+    	    	var formData = {geha : ghId }; // new HashMap();
+    	    	/* var obj = new Object();
+    	    	obj.geha = ghId; */
+    	    	// /tarvelmap/addgh?geha=14
+    	    	$.post ( '/travelmap/addgh', formData, function(resp){
+    	    		console.log ( resp );
+    	    	});
+    	    });
     	    updateGhInfo ( gh );
     	});
      
