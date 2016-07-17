@@ -29,6 +29,11 @@ public class GhDao {
 		template.setDataSource(ds);
 	}
 	
+	public GuestHouse findGhBySeq ( String ghSeq ) {
+		final String query = "select * from guesthouses where id = ?";
+		;
+		return null;
+	}
 	public List<GuestHouse> finalAll() {
 		final List<GuestHouse> ghList;
 		final String query = "select * from guesthouses ";
@@ -53,6 +58,7 @@ public class GhDao {
 	
 	public void addFavoriteGH ( String ghId, Integer uid ) {
 		String query = "insert into favoriteGH (traveller, gh) values (?,?);";
+		// 변하는 것 update ( insert, update, delete )
 		template.update(query, new Object[] {uid, ghId});
 		
 	}
@@ -77,5 +83,10 @@ public class GhDao {
 			
 		});
 		return ghList;
+	}
+
+	public void delFavoriteGH(String ghSeq, Integer uid) {
+		String query ="delete from favoriteGH where traveller = ? and gh = ?";
+		template.update(query, new Object[] {uid, ghSeq});
 	}
 }

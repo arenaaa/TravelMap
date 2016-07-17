@@ -18,7 +18,7 @@
 			<!-- Top Navigation -->
 			<div class="codeconveyTop clearfix">
 				<ul>
-				<li><a href="/travelmap"><span>Main</span></a></li>
+				<li><a href="<%=request.getContextPath()%>"><span>Main</span></a></li>
                 </ul>
 			</div>
 		</div>
@@ -33,7 +33,7 @@
                 </svg>
               </div>
               
-              <form action = "/travelmap/doJoin" method = "post">
+              <form action = "<%=request.getContextPath()%>/doJoin" method = "post">
               	<input type="text" placeholder="your name" name="uid">
                 <input type="email" placeholder="email" name="email">
                 <input type="password" placeholder="password" name="pw">

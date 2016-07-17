@@ -82,5 +82,28 @@ public class GuestController {
 		
 	}
 	
+	@RequestMapping(value="/delgh", method=RequestMethod.POST, produces="application/json;charset=utf-8")
+	public  @ResponseBody String delgh( HttpServletRequest req, HttpSession session ){
+		String ghSeq = req.getParameter("geha");
+		UserVO user = (UserVO) session.getAttribute("loginUser");
+		Integer uid = user.getSeq();
+		ghDao.delFavoriteGH(ghSeq, uid);
+
+		return "{\"success\":true}";
+	}
+	
+	// map 으로 반환
+	@RequestMapping(value="/viewgh", method=RequestMethod.GET, produces="application/json;charset=utf-8")
+	public @ResponseBody String viewgh( HttpServletRequest req, HttpSession session ) {
+		String ghSeq = req.getParameter("gh");
+		UserVO user = (UserVO) session.getAttribute("loginUser");
+		Integer uid = user.getSeq();
+		GuestHouse gh = ghDao.findGhBySeq(ghSeq);
+		/*
+		 *  { "success" : true, "gh" : { "lat" : 23.233, "lng" : 322.3233, "name": "gdkdkdk" } }
+		 */
+		return "";
+		
+	}
 	
 }
