@@ -15,10 +15,10 @@
             <ul class="nav navbar-nav navbar-right">
                 <c:if test="${empty loginUser }"><li><a href="<%= request.getContextPath()%>/join"><i class="fa fa-user fa-fw"></i>가입</a></li></c:if>
                 <c:if test="${ empty loginUser }">
-                        <li><a href="<%=request.getContextPath()%>/login"><i class="fa fa-sign-in fa-fw"></i> Login</a>
+                        <li><a href="<%=request.getContextPath()%>/login" data-toggle="modal"><i class="fa fa-sign-in fa-fw"> </i> 로그인</a>
                     </c:if>
                     <c:if test="${not empty loginUser }">
-                        <li><a href="<%=request.getContextPath()%>/mygh"><i class="fa fa-bed fa-fw"></i> 관심 게하</a></li>
+                        <li><a href="<%=request.getContextPath()%>/mygh"><i class="fa fa-cubes"></i> 관심 게하</a></li>
                         <li><a href="<%=request.getContextPath()%>/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
                     </c:if>
                 <!-- 
@@ -43,3 +43,11 @@
     </div>
 </nav>
 <div id="header-padding" style="height:50px"></div>
+<div class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-header">
+			<p>로그인</p>
+		</div>
+	
+	</div>
+</div>

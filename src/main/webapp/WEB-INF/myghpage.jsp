@@ -38,6 +38,8 @@
 #gh-info {
     display: none;
 }
+
+
 </style>
 <!-- jQuery -->
 <script
@@ -69,7 +71,10 @@ $(document).ready ( function() {
 	$('a.gh-name').click(function(e){
 		viewGh ( $(this).text() );
 		e.preventDefault(); //
+		
+		
 	});
+	//});
 	
 	$('.btn-del-gh').click(function(){
 		var ghSeq = $(this).attr ( 'id').substring(3); //del12
@@ -81,11 +86,80 @@ $(document).ready ( function() {
 			}
 		})
 	});
+	
 });
 
+var map;
+var infowindow;
+var markers = [];
+
+function getCurrentLocation(cbSuccess, cbFail) {
+	/*
+	function showPosition(position) {
+	    alert ("Latitude: " + position.coords.latitude + 
+	    "Longitude: " + position.coords.longitude ); 
+	}
+	*/
+	
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(cbSuccess, cbFail);
+    } else {
+        console.log ( "Geolocation is not supported by this browser.") ;
+        cbFail ( 'fail' );
+    }
+}
+
+
+function initMap() {
+	map = new google.maps.Map(document.getElementById('map'), {
+		center: {lat: -34.397, lng: 150.644},
+		zoom: 8
+	});
+	
+	infowindow = new google.maps.InfoWindow({
+        content: 'no content'
+    });
+	// 
+	$('.gh-name').each ( function(i, gh) {
+		var $gh = $(gh);
+		var lat = $gh.data('lat');
+		var lng = $gh.data('lng'); 
+		var myLatLng = { lat:lat, lng:lng} ;
+	 	var marker = new google.maps.Marker({
+		    position: myLatLng,
+		    map: map,
+		    title: 'Hello World!'
+		});
+	 		markers.push(marker);
+	});
+	
+	var bnd = new google.maps.LatLngBounds();
+	// 각각의마커들마다 위치정보를 얻어와서 bnd.extend(..)로 점들을 등록하면 알아서 크기를 설정합니다.
+	for(var i=0; i <markers.length; i++){
+	    var pos = markers[i].getPosition();
+	    bnd.extend(pos);
+	}
+	map.fitBounds(bnd);
+	
+	getCurrentLocation(function(position) {
+		var lat = position.coords.latitude;
+		var lng = position.coords.longitude;
+		var myLatLng = { lat:lat, lng:lng };
+		var marker = new google.maps.Marker({
+		    position: myLatLng,
+		    map: map,
+		    title: '나의 위치'
+		});
+	 		markers.push(marker);
+		
+	}, function( error ) {
+		console.log(error );
+	});
+	
+}
 
 </script>
-</head>
+
 
 <body>
 <div id="wrapper">
@@ -102,10 +176,12 @@ $(document).ready ( function() {
                 <c:forEach items="${requestScope.ghList }" var="gh">
                 <tr>
                     <!-- el태그 안에는 GuestHouse의 getter를 참고 -->
-                    <td><a href="#" class="gh-name" data-gh="${gh.id}">[${gh.id}]${gh.name}</a></td> <!-- onclick="viewGh(${gh.id}); return false" --> 
-                    <td align="right"><button id="del${gh.id}" class="btn btn-default btn-xs btn-del-gh">제거</button></td>
+                    <td><a href="#" class="gh-name" data-gh="${gh.id}" data-lat="${gh.lat}" data-lng="${gh.lng}">[${gh.id}]${gh.name}</a></td> <!-- onclick="viewGh(${gh.id}); return false" --> 
+                    <td align="right"><button id="del${gh.id}" class="btn btn-default btn-xs btn-del-gh" ><i class="fa fa-times" aria-hidden="true"></i></button></td>
                 </tr>
                 </c:forEach>
+                
+               
                 <!-- 
                     <tr>
                         <td><a href="#">소낭게스트하우스</a></td>
@@ -121,38 +197,45 @@ $(document).ready ( function() {
                     </tr>
                    -->
             </table>
+            
         </div>
+        <div>
+        </div>
+        <!-- 
+        <ul id="tabs">
+		    <li class="active">Tab 1</li>
+		    <li>Tab 2</li>
+		    <li>Tab 3</li>
+		    <li>Tab 4</li>
+		    <li>Tab 5</li>
+		</ul>
+		<ul id="tab">
+		
+		    <li class="active">
+		        <h2>@지도 [${gh.id}]${gh.name}</h2>
+		        <div id="map" style="width:100%; height:300px"></div>
+		    </li>
+		    <li>
+		        <h2>This is the second tab</h2>
+		    </li>
+		    <li>
+		        <h2>Tab number three wee hee</h2>
+		    </li>
+		    <li>
+		        <h2>Fourth tab not bad</h2>
+		    </li>
+		    <li>
+		        <h2>Tab number five here we go!</h2>
+		    </li>
+		</ul>	
+         -->
     </div>
-    <div id="gh-info">
-        <div id="overview">
-            <h3>
-                <span id="gh-name"></span> [ <a id="gh-link" href="#">LINK</a> ]
-                <c:if test="${not empty loginUser }">
-                    <button type="button" class="btn btn-default btn-xs">제거</button>
-                </c:if>
-            </h3>
-
-            <ul>
-                <li>010-3333-2233</li>
-                <li>addr@naver.com</li>
-                <li>제주시 어디 어디 300-34</li>
-                <li>게스트하우스 소개 내용이 여기 출력됩니다.</li>
-            </ul>
-        </div>
-        <div id="searchview">
-            <ul>
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-            </ul>
-        </div>
-
-    </div>
+    <div id="map" style="height:300px"></div>
 
     <!-- /.container-fluid -->
 </div>
 <!-- /#wrapper -->
 </body>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCy1X-f36fp4thbEIZSJWpCU7GCKMve2uA&callback=initMap" async defer></script>
+</head>
 </html>

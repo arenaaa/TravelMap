@@ -11,6 +11,8 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
+<link rel="shortcut icon" href="<%=request.getContextPath()%>/resources/images/favicon.ico" type="image/x-icon" />
+<link rel="icon" href="<%=request.getContextPath()%>/resources/images/favicon.ico" type="image/x-icon" />
 <title>맹뜌</title>
 
 <!-- Bootstrap Core CSS -->
@@ -60,6 +62,19 @@
 }
 #rating .star_rating a:first-child {margin-left:0;}
 #rating .star_rating a.on {color:#d0f510;}
+
+.nav-tabs { border-bottom: 2px solid #DDD; }
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover { border-width: 0; }
+    .nav-tabs > li > a { border: none; color: #666; }
+        .nav-tabs > li.active > a, .nav-tabs > li > a:hover { border: none; color: #4285F4 !important; background: transparent; }
+        .nav-tabs > li > a::after { content: ""; background: #4285F4; height: 2px; position: absolute; width: 100%; left: 0px; bottom: -1px; transition: all 250ms ease 0s; transform: scale(0); }
+    .nav-tabs > li.active > a::after, .nav-tabs > li:hover > a::after { transform: scale(1); }
+.tab-nav > li > a::after { background: #21527d none repeat scroll 0% 0%; color: #fff; }
+.tab-pane { padding: 15px 0; }
+.tab-content{padding:20px}
+
+.card {background: #FFF none repeat scroll 0% 0%; box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3); margin-bottom: 30px; }
+
 </style>
 
 <script type="text/javascript">
@@ -89,75 +104,63 @@ function enableRating() {
         <div id="map-core"></div>
     </div> 
     <div id="gh-info">
-        <div id="overview">
-         <h3><span id="gh-name"></span> [ <a id="gh-link" href="#">LINK</a> ] 
-         <c:if test="${not empty loginUser }"><button type="button" class="btn btn-success btn-xs">추가</button></c:if>
-         </h3>
-         <div id="rating">
-             <p class="star_rating">
-                <a href="#" class="on fa fa-star fw"></a>
-                <a href="#" class="on fa fa-star fw"></a>
-                <a href="#" class="on fa fa-star fw"></a>
-                <a href="#" class="on fa fa-star fw"></a>
-                <a href="#" class="on fa fa-star fw"></a>
-            </p>
-         </div>
-         <ul>
-          <li>010-3333-2233</li>
-          <li>addr@naver.com</li>
-          <li>제주시 어디 어디 300-34</li>
-          <li>게스트하우스 소개 내용이 여기 출력됩니다.</li>
-         </ul>
-        </div>
-        <div id="searchview">
-            <ul>
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-                <li>검색결과1
-            </ul>
-        </div>
+    <!-- tap menu 시작 -->
+    <div class="container">
+	<div class="row">
+		                                <div class="col-xs-12">
+                                    <!-- Nav tabs --><div class="card">
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">게스트하우스</a></li>
+                                        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">상세정보</a></li>
+                                        <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">검색결과</a></li>
+                                    </ul>
 
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane active" id="home"> 
+                                       	 <h3><span id="gh-name"></span> [ <a id="gh-link" href="#">LINK</a> ] 
+         								<c:if test="${not empty loginUser }"><i class="fa fa-plus-square" aria-hidden="true"></i></c:if>
+         								</h3></div>
+         								
+								         <div id="rating">
+								             <p class="star_rating">
+								                <a href="#" class="on fa fa-star fw"></a>
+								                <a href="#" class="on fa fa-star fw"></a>
+								                <a href="#" class="on fa fa-star fw"></a>
+								                <a href="#" class="on fa fa-star fw"></a>
+								                <a href="#" class="on fa fa-star fw"></a>
+								            </p>
+								         </div>
+                                        <div role="tabpanel" class="tab-pane" id="profile">   
+									         <ul>
+									          <li>010-3333-2233</li>
+									          <li>addr@naver.com</li>
+									          <li>제주시 어디 어디 300-34</li>
+									          <li>게스트하우스 소개 내용이 여기 출력됩니다.</li>
+									         </ul></div>
+                                        <div role="tabpanel" class="tab-pane" id="messages">
+                                        	<div id="searchview">
+								            <ul>
+								                <li>검색결과1
+								                <li>검색결과1
+								                <li>검색결과1
+								                <li>검색결과1
+								                <li>검색결과1
+								                <li>검색결과1
+								
+								            </ul>
+								            </div>
+       									</div>
+                                    </div>
+</div>
+                                </div>
+	</div>
+</div>
+<!-- 끝 -->
+        <div id="overview">
+       
+        </div>
+        
     </div>
 </div>
 </body>
