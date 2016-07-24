@@ -77,6 +77,26 @@
 
 </style>
 
+<style type="text/css">
+.auth-form-body {
+    padding: 20px;
+    font-size: 14px;
+    background-color: #fff;
+    border: 1px solid #d8dee2;
+    border-top: 0;
+    border-radius: 0 0 3px 3px;
+}
+.auth-form-body .input-block {
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+.auth-form-body .error {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    display: none;
+}
+
+</style>
 <script type="text/javascript">
 
 function enableRating() {

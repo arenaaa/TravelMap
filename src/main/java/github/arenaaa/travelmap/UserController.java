@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import github.arenaaa.travelmap.dao.UserDao;
@@ -66,10 +67,23 @@ public class UserController {
 	}
 	*/
 	
-	@RequestMapping(value="/login", method = RequestMethod.GET)
-	public String login_ok( HttpServletRequest req ){
+	@RequestMapping(value="/login", method = RequestMethod.POST)
+	public @ResponseBody String login_ok( HttpServletRequest req, HttpSession session ){
 		req.setAttribute ( "msg", "WELCOME!");
-		return "login"; // forwarding
+		String userid = req.getParameter("uid");
+		String password = req.getParameter("pw");
+
+		UserVO loginUser = userDao.Login( userid, password );
+		String jsonString = "";
+		if ( loginUser != null ) {
+			System.out.println("OK");
+			session.setAttribute("loginUser", loginUser);
+			jsonString = "{\"success\": true}";
+		} else {
+			System.out.println("Fail");
+			jsonString = "{\"success\": false}";
+		}
+		return jsonString; // @ResponseBody {}.jsp(x),  
 	}
 	
 	@RequestMapping(value="/doLogin", method = RequestMethod.POST)
