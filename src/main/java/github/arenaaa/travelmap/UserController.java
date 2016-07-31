@@ -73,7 +73,9 @@ public class UserController {
 		String userid = req.getParameter("uid");
 		String password = req.getParameter("pw");
 
+		System.out.println("아이디 : "+userid);
 		UserVO loginUser = userDao.Login( userid, password );
+			
 		String jsonString = "";
 		if ( loginUser != null ) {
 			System.out.println("OK");

@@ -78,7 +78,7 @@ $(document).ready ( function() {
 	
 	$('.btn-del-gh').click(function(){
 		var ghSeq = $(this).attr ( 'id').substring(3); //del12
-		var formData = {geha : ghSeq };
+		var formData = { geha : ghSeq };
 		$.post ( ctxpath + '/delgh', formData, function(resp){
 			console.log( resp );
 			if ( resp.success ) {
@@ -201,34 +201,6 @@ function initMap() {
         </div>
         <div>
         </div>
-        <!-- 
-        <ul id="tabs">
-		    <li class="active">Tab 1</li>
-		    <li>Tab 2</li>
-		    <li>Tab 3</li>
-		    <li>Tab 4</li>
-		    <li>Tab 5</li>
-		</ul>
-		<ul id="tab">
-		
-		    <li class="active">
-		        <h2>@지도 [${gh.id}]${gh.name}</h2>
-		        <div id="map" style="width:100%; height:300px"></div>
-		    </li>
-		    <li>
-		        <h2>This is the second tab</h2>
-		    </li>
-		    <li>
-		        <h2>Tab number three wee hee</h2>
-		    </li>
-		    <li>
-		        <h2>Fourth tab not bad</h2>
-		    </li>
-		    <li>
-		        <h2>Tab number five here we go!</h2>
-		    </li>
-		</ul>	
-         -->
     </div>
     <div id="map" style="height:300px"></div>
 

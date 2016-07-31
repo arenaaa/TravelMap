@@ -10,35 +10,37 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+import org.springframework.stereotype.Repository;
+
 import github.arenaaa.travelmap.vo.*;
 
 public class GhDao {
 
-	private JdbcTemplate template ;
-	
-	public GhDao () {
+	private JdbcTemplate template;
+
+	public GhDao() {
 		template = new JdbcTemplate();
 		SimpleDriverDataSource ds = new SimpleDriverDataSource();
-		
-	
+
 		ds.setDriver(new Driver());
 		ds.setUsername("root");
 		ds.setPassword("");
 		ds.setUrl("jdbc:mysql://localhost:3306/GHDB");
-		
+
 		template.setDataSource(ds);
 	}
-	
-	public GuestHouse findGhBySeq ( String ghSeq ) {
+
+	public GuestHouse findGhBySeq(String ghSeq) {
 		final String query = "select * from guesthouses where id = ?";
 		;
 		return null;
 	}
+
 	public List<GuestHouse> finalAll() {
 		final List<GuestHouse> ghList;
 		final String query = "select * from guesthouses ";
-		
-		ghList = template.query(query, new RowMapper<GuestHouse>(){
+
+		ghList = template.query(query, new RowMapper<GuestHouse>() {
 
 			@Override
 			public GuestHouse mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -48,24 +50,24 @@ public class GhDao {
 				Double lat = rs.getDouble("lat");
 				Double lng = rs.getDouble("lng");
 				String url = rs.getString("url");
-				
+
 				GuestHouse gh = new GuestHouse(id, name, info, lat, lng, url);
 				return gh;
 			}
 		});
 		return ghList;
 	}
-	
-	public void addFavoriteGH ( String ghId, Integer uid ) {
+
+	public void addFavoriteGH(String ghId, Integer uid) {
 		String query = "insert into favoriteGH (traveller, gh) values (?,?);";
 		// 변하는 것 update ( insert, update, delete )
-		template.update(query, new Object[] {uid, ghId});
-		
+		template.update(query, new Object[] { uid, ghId });
+
 	}
 
 	public List<GuestHouse> findFavoriteGH(UserVO user) {
 		String query = "select * from guesthouses where id IN ( select `gh` from favoriteGH where traveller = ?); ";
-		List<GuestHouse> ghList = template.query(query, new Object[]{user.getSeq()}, new RowMapper<GuestHouse>(){
+		List<GuestHouse> ghList = template.query(query, new Object[] { user.getSeq() }, new RowMapper<GuestHouse>() {
 
 			@Override
 			public GuestHouse mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -75,18 +77,17 @@ public class GhDao {
 				Double lat = rs.getDouble("lat");
 				Double lng = rs.getDouble("lng");
 				String url = rs.getString("url");
-				
+
 				GuestHouse gh = new GuestHouse(id, name, info, lat, lng, url);
 				return gh;
 			}
-			
-			
+
 		});
 		return ghList;
 	}
 
 	public void delFavoriteGH(String ghSeq, Integer uid) {
-		String query ="delete from favoriteGH where traveller = ? and gh = ?";
-		template.update(query, new Object[] {uid, ghSeq});
+		String query = "delete from favoriteGH where traveller = ? and gh = ?";
+		template.update(query, new Object[] { uid, ghSeq });
 	}
 }
