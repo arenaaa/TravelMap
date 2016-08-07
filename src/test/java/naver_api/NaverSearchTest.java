@@ -41,6 +41,8 @@ public class NaverSearchTest {
 		con.header("X-Naver-Client-Secret", "TVVzDouamH");
 
 		Document xml = con.get();
+		
+	 System.out.println(xml);
 
 		Elements links = xml.select("rss channel item  link");
 		// System.out.println(xml.toString());

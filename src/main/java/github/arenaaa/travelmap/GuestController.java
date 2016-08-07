@@ -1,5 +1,6 @@
 package github.arenaaa.travelmap;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -123,5 +126,34 @@ public class GuestController {
 		String xml = ghService.searchGH(ghName);
 		return xml ;
 	}
+	
+	@RequestMapping(value="/registergh", method=RequestMethod.POST)
+	public String registergh( HttpServletRequest req, HttpSession session ) {
+		return "registergh";
+	}
+	
+//	@RequestMapping(value="/autocomplete.json", method=RequestMethod.POST)
+//	public @ResponseBody Map<String, Object> autocomplete ( HttpServletRequest req) {
+//		String searchValue=req.getParameter("searchValue");
+//		JSONArray arrayObj = new JSONArray();
+//		JSONObject jsonobj = null;
+//		
+//		
+//		ArrayList<String> dblist = new ArrayList<String>();
+//		dblist = ghDao.getGhName();
+//	}
+	
+	@RequestMapping(value="/search.json", method=RequestMethod.GET, produces="application/json;charset=utf-8")
+	public @ResponseBody Map<String, Object> search( @RequestParam(value="k") String searchWord ) {
+		
+		List<GuestHouse> results = ghDao.findByName(searchWord);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("success", true);
+		map.put("data", results);
+		
+		return map;
+	}
+	
 }
 

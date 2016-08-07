@@ -27,6 +27,9 @@
 				<c:if test="${not empty loginUser }">
 					<li><a href="<%=request.getContextPath()%>/mygh"><i
 							class="fa fa-cubes"></i> 관심 게하</a></li>
+					<li><a href="<%=request.getContextPath()%>/registergh">
+						<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+						글쓰기</a></li>
 					<li><a href="<%=request.getContextPath()%>/logout"><i
 							class="fa fa-sign-out fa-fw"></i> Logout</a></li>
 				</c:if>
@@ -57,6 +60,10 @@
 	<div class="modal-dialog">
 		<!-- Modal content-->
 		<div class="modal-content">
+		<div class="modal-header">
+		<i class="fa fa-hand-o-right" aria-hidden="true"></i>
+		Login
+		</div>
 			<div class="auth-form-body">
 
 				<div class="error">

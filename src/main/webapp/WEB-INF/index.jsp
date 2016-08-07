@@ -24,6 +24,9 @@
 	href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css"
 	rel="stylesheet">
 
+<link href="<%=request.getContextPath()%>/resources/css/flat-ui.css"
+	rel="stylesheet">
+
 <!-- Custom Fonts -->
 <link
 	href="<%=request.getContextPath()%>/resources/fonts/font-awesome.min.css"
@@ -48,6 +51,8 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 <style type="text/css">
+
+
 #map {
 	height: 400px;
 }
@@ -140,6 +145,27 @@
 	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
 	margin-bottom: 30px;
 }
+/*
+.fixed_img_row ul{margin:0;padding:0;font-size:12px;font-family:Tahoma, Geneva, sans-serif;list-style:none}
+.fixed_img_row li{position:relative;margin:0 0 -1px 0;padding:15px 0 15px 135px;border:1px solid #eee;border-left:0;border-right:0;vertical-align:top;*zoom:1}
+.fixed_img_row li:after{display:block;clear:both;content:""}
+.fixed_img_row a{text-decoration:none;cursor:pointer}
+.fixed_img_row a strong{display:inline-block;margin:0 0 4px 0;color:#333}
+.fixed_img_row .thumb{display:inline;overflow:hidden;float:left;position:relative;width:120px;margin:0 15px 0 -135px;background:#eee;color:#666;line-height:80px;text-align:center;-moz-box-shadow:0 0 5px #666;-webkit-box-shadow:0 0 5px #666}
+.fixed_img_row .thumb img{display:block;border:0}
+.fixed_img_row .thumb em{visibility:hidden;position:absolute;top:50%;left:0;width:1px;height:1px;margin:-90px 0 0 0;background:#000;font-weight:bold;font-style:normal;color:#fff;text-align:center;opacity:.6;filter:alpha(opacity=60)}
+.fixed_img_row .thumb em{_visibility:visible;_top:0;_width:100%;_height:auto;_margin:0;_line-height:20px}
+.fixed_img_row p{margin:0;color:#767676;line-height:1.4}
+.fixed_img_row a:hover strong,
+.fixed_img_row a:active strong,
+.fixed_img_row a:focus strong{text-decoration:underline}
+.fixed_img_row a:hover .thumb,
+.fixed_img_row a:active .thumb,
+.fixed_img_row a:focus .thumb{margin:-3px -3px -3px -138px;border:3px solid #eee;-moz-box-shadow:0 0 5px #666;-webkit-box-shadow:0 0 5px #666}
+.fixed_img_row a:hover .thumb em,
+.fixed_img_row a:active .thumb em,
+.fixed_img_row a:focus .thumb em{visibility:visible;width:100%;height:auto;line-height:180px}
+*/
 </style>
 
 <style type="text/css">
@@ -203,6 +229,51 @@ $(document).ready ( function() {
 			  $('#searchview').empty().append( searchHtml );
 		  });
 	});
+	
+	$('#search-input').on('keyup', function(evt) {
+		if ( evt.keyCode == 13 ) {
+			var searchWord =  $(evt.target).val();
+			// /tmp/search.json?k=tdkdk
+			$.get(ctxpath + '/search.json', {k : searchWord}, function(resp){
+				console.log('검색', resp);
+				var ghList = resp.data;
+				console.log ( ghList );
+				/*
+				for( var i = 0; i < markers.length; i++){
+					markers.setMap(null);
+				}
+				*/
+				
+				
+				// <tr><td><a href="#" class="gh-name" data-gh="{id}" data-lat="{lat}" data-lng="{lng}">{name}</a></td></tr>
+				$('#search-tbl').empty();
+				var template = '<tr><td><a href="#" class="gh-name" data-gh="{id}" data-lat="{lat}" data-lng="{lng}">{name}</a></td></tr>';
+				for (var j = 0; j < ghList.length; j++) {
+					var tr = template.replace("{id}", ghList[j].id)
+					                 .replace("{name}", ghList[j].name)
+					                 .replace("{lat}", ghList[j].lat)
+					                 .replace("{lng}", ghList[j].lng);
+					
+					$('#search-tbl').append ( tr );
+				}// end-for
+				
+			});
+			$(evt.target).blur();
+			// new google.maps.event.trigger ( markers[1], 'click');
+		}
+	});
+	
+	$('#search-tbl').on('click', function(e){
+		
+		var ghId = $(e.target).data('gh');
+		
+		for ( var i = 0; i < markers.length; i++) {
+			if( markers[i].gh.id == ghId ) {
+				// new google.maps.event.trigger( markers[i], 'click');
+				showInfowindow ( map, markers[i], markers[i].gh );
+			}
+		}
+	});
 });
 </script>
 </head>
@@ -264,14 +335,16 @@ $(document).ready ( function() {
 								</div>
 								<div role="tabpanel" class="tab-pane" id="messages">
 									<div id="searchview">
-										<ul>
-											<li>검색결과1
-											<li>검색결과1
-											<li>검색결과1
-											<li>검색결과1
-											<li>검색결과1
-											<li>검색결과1
-										</ul>
+										<!-- UI Object -->
+    <ul>
+    <li>
+        <a href="#"><span class="thumb"><img src="img/@thumb.jpg" width="120" alt=""> <em>Category</em></span> <strong>이미지의 너비가 고정폭 이어야 할 때</strong></a>
+        <p>이미지의 너비가 고정폭일 때 이 스타일을 사용 합니다. 이미지보다 글의 양이 많아지더라도 이미지 아래쪽으로 글이 흐르지 않는 것을 확인 할 수 있습니다. 이미지의 너비가 고정폭일 때 이 스타일을 사용 합니다. 이미지보다 글의 양이 많아지더라도 이미지 아래쪽으로 글이 흐르지 않는 것을 확인 할 수 있습니다. 이미지의 너비가 고정폭일 때 이 스타일을 사용 합니다. 이미지보다 글의 양이 많아지더라도 이미지 아래쪽으로 글이 흐르지 않는 것을 확인 할 수 있습니다. </p>
+    </li>
+    </ul>
+</div>
+<!-- //UI Object -->
+										
 									</div>
 								</div>
 							</div>
@@ -280,7 +353,14 @@ $(document).ready ( function() {
 				</div>
 			</div>
 			<!-- 끝 -->
-			<div id="overview"></div>
+		<div id="gh-search">
+			<input type="text" id="search-input" class="form-control">
+			  <!-- Table -->
+			<!-- <tr><td><a href="#" class="gh-name" data-gh="{id}" data-lat="{lat}" data-lng="{lng}">{name}</a></td></tr> -->
+            <table class="table" id="search-tbl">
+            </table>
+			
+		</div>
 
 		</div>
 	</div>
@@ -301,13 +381,14 @@ $(document).ready ( function() {
 	var map;
 	var markers = [];
 	var activeGh ;
+	var infowindow;
 
 	var curCenter = {
 		lat : 33.504644819360955,
 		lng : 126.4942775800781
 	};
 
-	function adjustSize(ratio) {
+	 function adjustSize(ratio) {
 		var $win = $(window);
 		var $menu = $('#nav-menu');
 		var $map = $('#map');
@@ -321,7 +402,7 @@ $(document).ready ( function() {
 
 		info.css('height', infoH + 'px');
 		//info.css('top', infoT + 'px');
-	}
+	} 
 
 	function adjustInfoSize(ratio) {
 		var win = $(window);
@@ -352,7 +433,7 @@ $(document).ready ( function() {
 			zoom : 14
 
 		});
-		var infowindow = new google.maps.InfoWindow({
+		infowindow = new google.maps.InfoWindow({
 			content : 'no content'
 		});
 
@@ -364,7 +445,8 @@ $(document).ready ( function() {
 					lng : guesthouses[i].lng
 				},
 				map : map,
-				title : guesthouses[i].name
+				title : guesthouses[i].name,
+				gh : guesthouses[i]
 			});
 
 			markers.push(marker);
@@ -381,6 +463,11 @@ $(document).ready ( function() {
 
 		map.fitBounds(bnd);
 		enableRating();
+		/*
+		for ( var k = 0 ; k < markers.length ; k++ ) {
+			markers[k].setMap ( null );
+		}
+		*/
 	}
 
 	function updateGhInfo(gh) {
@@ -389,17 +476,28 @@ $(document).ready ( function() {
 		$('#gh-link').attr("href", gh.url);
 		activeGh = gh;
 	}
-
-	function addClickListener(infowin, map, marker, gh) {
-
+	
+	function showInfowindow(map, marker, gh) {
 		var template = '<a href={0}><i>{1}</i></a><br><c:if test="${not empty loginUser }">'
 				+ '<button type="button" id="{id}" class="btn btn-success btn-xs">추가</button></c:if>    ';
 
+		var content = template.replace("{0}", gh.url).replace("{1}",
+				gh.name).replace("{id}", 'gh' + gh.id); // id="btn"
+		infowindow.setContent(content);
+		infowindow.open(map, marker);
+	}
+
+	function addClickListener(infowin, map, marker, gh) {
+
+
 		marker.addListener('click', function() {
+			/*
 			var content = template.replace("{0}", gh.url).replace("{1}",
 					gh.name).replace("{id}", 'gh' + gh.id); // id="btn"
 			infowin.setContent(content);
 			infowin.open(map, marker);
+			*/
+			showInfowindow(map, marker, gh);
 			var pos = marker.getPosition();
 			//map.panTo ( pos );
 			console.log("콜백 실행됐음");
@@ -415,6 +513,7 @@ $(document).ready ( function() {
 				$.post(ctxpath + '/addgh', formData, function(resp) {
 					console.log(resp);
 				});
+				alert(gh.name+"가 추가되었습니다.");
 			});
 			updateGhInfo(gh);
 			$('#ghTab a:first').tab('show'); // tab 초기화

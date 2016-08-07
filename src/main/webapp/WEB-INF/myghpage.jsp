@@ -22,6 +22,9 @@
 <!-- Custom CSS -->
 <link href="<%=request.getContextPath()%>/resources/css/sb-admin-2.css" rel="stylesheet">
 
+<link href="<%=request.getContextPath()%>/resources/css/flat-ui.css"
+	rel="stylesheet">
+
 <!-- Custom Fonts -->
 <link href="<%=request.getContextPath()%>/resources/fonts/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -158,6 +161,34 @@ function initMap() {
 	
 }
 
+$(function() {
+	$( "#autocomplete ").autocomplete({
+	source : function( request, response ) {	
+	$.ajax({
+			type: 'post',
+			url: "/autocomplete.json",
+			dataType: "json",
+			
+			data: { searchValue : request.term },
+			success: function(data) {
+				response (
+						$.map(data, function(item) {
+							return {
+								label : item.data,
+								value : item.data
+							}
+						})
+				);
+			}
+		});
+	},
+		minLength : 1,
+		select: function( event, ui ){
+			// 검색리스트에서 이벤트 발생 시 생기는 이벤트
+		}
+	});
+})
+
 </script>
 
 
@@ -170,7 +201,8 @@ function initMap() {
         <div class="panel panel-default">
             <!-- Default panel contents -->
             <div class="panel-heading">관심 게스트하우스</div>
-
+	
+			
             <!-- Table -->
             <table class="table">
                 <c:forEach items="${requestScope.ghList }" var="gh">
