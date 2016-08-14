@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.mariadb.jdbc.Driver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -15,18 +16,11 @@ import github.arenaaa.travelmap.vo.UserVO;
 
 public class UserDao {
 
+	@Autowired
 	private JdbcTemplate template;
 
 	public UserDao() {
-		template = new JdbcTemplate();
-		SimpleDriverDataSource ds = new SimpleDriverDataSource();
-
-		ds.setDriver(new Driver());
-		ds.setUsername("root");
-		ds.setPassword("");
-		ds.setUrl("jdbc:mysql://localhost:3306/GHDB");
-
-		template.setDataSource(ds);
+		
 	}
 
 	public void insertUser(UserVO user) {

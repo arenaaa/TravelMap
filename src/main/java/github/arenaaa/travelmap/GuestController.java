@@ -15,6 +15,8 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,8 @@ import github.arenaaa.travelmap.vo.UserVO;
 @Controller
 public class GuestController {
 
+	private static Logger logger = LoggerFactory.getLogger(GuestController.class);
+	
 	@Autowired
 	private GhDao ghDao ; // 어찌어찌 - Reflection!
 	/*
@@ -146,11 +150,19 @@ public class GuestController {
 	@RequestMapping(value="/search.json", method=RequestMethod.GET, produces="application/json;charset=utf-8")
 	public @ResponseBody Map<String, Object> search( @RequestParam(value="k") String searchWord ) {
 		
-		List<GuestHouse> results = ghDao.findByName(searchWord);
-		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("success", true);
-		map.put("data", results);
+
+		if ( searchWord == null || searchWord.trim().length() == 0 ){
+			map.put("success", false);
+			map.put("cause", "EMPTY_QUERY");
+		} else {
+			logger.info("keyworad: " + searchWord);
+			List<GuestHouse> results = ghDao.findByName(searchWord.trim());
+			
+			map.put("success", true);
+			map.put("data", results);
+			
+		}
 		
 		return map;
 	}

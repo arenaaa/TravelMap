@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <nav id="nav-menu" class="navbar navbar-default navbar-fixed-top"
 	role="navigation" style="margin-bottom: 0">
+	
+
+	
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse"

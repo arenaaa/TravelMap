@@ -29,9 +29,10 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 
-	<beans:bean id="xxxx" class="github.arenaaa.travelmap.dao.GhDao">
+	<beans:bean id="ghDao" class="github.arenaaa.travelmap.dao.GhDao">
+		<!-- <beans:property name="template" ref="jdbcTemplate"></beans:property> -->
 	</beans:bean>
-	<beans:bean id="userbean" class="github.arenaaa.travelmap.dao.UserDao">
+	<beans:bean id="userDao" class="github.arenaaa.travelmap.dao.UserDao">
 	</beans:bean>
 	<!-- 
 	<beans:bean id="ghservice" class="github.arenaaa.travelmap.SearchService">

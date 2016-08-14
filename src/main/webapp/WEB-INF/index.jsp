@@ -236,26 +236,26 @@ $(document).ready ( function() {
 			// /tmp/search.json?k=tdkdk
 			$.get(ctxpath + '/search.json', {k : searchWord}, function(resp){
 				console.log('검색', resp);
-				var ghList = resp.data;
-				console.log ( ghList );
-				/*
-				for( var i = 0; i < markers.length; i++){
-					markers.setMap(null);
-				}
-				*/
-				
-				
-				// <tr><td><a href="#" class="gh-name" data-gh="{id}" data-lat="{lat}" data-lng="{lng}">{name}</a></td></tr>
-				$('#search-tbl').empty();
-				var template = '<tr><td><a href="#" class="gh-name" data-gh="{id}" data-lat="{lat}" data-lng="{lng}">{name}</a></td></tr>';
-				for (var j = 0; j < ghList.length; j++) {
-					var tr = template.replace("{id}", ghList[j].id)
-					                 .replace("{name}", ghList[j].name)
-					                 .replace("{lat}", ghList[j].lat)
-					                 .replace("{lng}", ghList[j].lng);
+				if ( resp.success ) {
+					var ghList = resp.data;
+					console.log ( ghList );
+					$('#search-tbl').empty();
+					var template = '<tr><td><a href="#" class="gh-name" data-gh="{id}" data-lat="{lat}" data-lng="{lng}">{name}</a></td></tr>';
+					for (var j = 0; j < ghList.length; j++) {
+						// <tr><td><a href="#" class="gh-name" data-gh="{id}" data-lat="{lat}" data-lng="{lng}">{name}</a></td></tr>
+						var tr = template.replace("{id}", ghList[j].id)
+						                 .replace("{name}", ghList[j].name)
+						                 .replace("{lat}", ghList[j].lat)
+						                 .replace("{lng}", ghList[j].lng);
+						
+						$('#search-tbl').append ( tr );
+					}// end-for
 					
-					$('#search-tbl').append ( tr );
-				}// end-for
+				} else {
+					
+				}
+				
+				
 				
 			});
 			$(evt.target).blur();
@@ -353,8 +353,13 @@ $(document).ready ( function() {
 				</div>
 			</div>
 			<!-- 끝 -->
-		<div id="gh-search">
-			<input type="text" id="search-input" class="form-control">
+		<div id="gh-search" class="input-group input-group-hg input-group-rounded">
+		  <span class="input-group-btn">
+	  		  <button type="submit" class="btn"><span class="fui-search"></span></button>
+	 	 </span>
+	  		<input type="text" class="form-control" placeholder="Search" id="search-input">
+		</div>
+			<!--  <input type="text" id="search-input" class="form-control"> -->
 			  <!-- Table -->
 			<!-- <tr><td><a href="#" class="gh-name" data-gh="{id}" data-lat="{lat}" data-lng="{lng}">{name}</a></td></tr> -->
             <table class="table" id="search-tbl">
@@ -425,6 +430,24 @@ $(document).ready ( function() {
 			initMap();
 		});
 	}
+	
+	function installControlls ( map ) {
+		var searchCtrl = document.createElement('div');
+	    $(searchCtrl).css('margin' , '10px');
+	    
+		var btn = $('<div style="-webkit-user-select: none; box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; border-radius: 2px; cursor: pointer; width: 28px; height: 28px; background-color: rgb(255, 255, 255);text-align:center"><i class="fa fa-search fa-2x" aria-hidden="true" style="margin-top:3px;"></i></div>');
+		searchCtrl.appendChild ( btn[0] );
+		
+		btn.on ( 'click', function(){
+			$('#gh-info').hide();
+			$('#gh-search').show();
+		
+		});
+		
+		map.controls[google.maps.ControlPosition.TOP_RIGHT].push(searchCtrl);
+		
+		
+	}
 
 	function initMap() {
 
@@ -433,6 +456,7 @@ $(document).ready ( function() {
 			zoom : 14
 
 		});
+		installControlls ( map );
 		infowindow = new google.maps.InfoWindow({
 			content : 'no content'
 		});
@@ -498,11 +522,13 @@ $(document).ready ( function() {
 			infowin.open(map, marker);
 			*/
 			showInfowindow(map, marker, gh);
+			$("#gh-search").hide();
 			var pos = marker.getPosition();
 			//map.panTo ( pos );
 			console.log("콜백 실행됐음");
 			
 			$('#gh' + gh.id).on('click', function(evt) {
+				
 				var ghId = $(evt.target).attr('id').substring(2);
 				var formData = {
 					geha : ghId

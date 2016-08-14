@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.mariadb.jdbc.Driver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -17,19 +18,15 @@ import github.arenaaa.travelmap.vo.*;
 
 public class GhDao {
 
+	@Autowired
 	private JdbcTemplate template;
 
 	public GhDao() {
-		template = new JdbcTemplate();
-		SimpleDriverDataSource ds = new SimpleDriverDataSource();
-
-		ds.setDriver(new Driver());
-		ds.setUsername("root");
-		ds.setPassword("");
-		ds.setUrl("jdbc:mysql://localhost:3306/GHDB");
-
-		template.setDataSource(ds);
 	}
+	
+//	public void setTemplate ( JdbcTemplate template) {
+//		this.template = template;
+//	}
 
 	public GuestHouse findGhBySeq(String ghSeq) {
 		final String query = "select * from guesthouses where id = ?";
