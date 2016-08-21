@@ -44,6 +44,9 @@
 <script
 	src="<%=request.getContextPath()%>/resources/js/metisMenu.min.js"></script>
 
+<!-- Marker Cluster -->
+<script
+	src="<%=request.getContextPath()%>/resources/js/mc.js"></script>
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -387,6 +390,7 @@ $(document).ready ( function() {
 	var markers = [];
 	var activeGh ;
 	var infowindow;
+	var markerCluster ;
 
 	var curCenter = {
 		lat : 33.504644819360955,
@@ -492,6 +496,12 @@ $(document).ready ( function() {
 			markers[k].setMap ( null );
 		}
 		*/
+		
+		 var options = {
+		 	imagePath: ctxpath + '/resources/images/m'
+		 };
+
+		markerCluster = new MarkerClusterer(map, markers, options);
 	}
 
 	function updateGhInfo(gh) {
