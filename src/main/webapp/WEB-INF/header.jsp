@@ -20,8 +20,9 @@
 		<div class="collapse navbar-collapse" id="nav-elem">
 			<ul class="nav navbar-nav navbar-right">
 				<c:if test="${empty loginUser }">
-					<li><a href="<%=request.getContextPath()%>/join"><i
-							class="fa fa-user fa-fw"></i>가입</a></li>
+					<li><a href="#" data-toggle="modal" data-target="#joinModal">
+					<i
+							class="fa fa-user fa-fw"></i>회원가입</a></li>
 				</c:if>
 				<c:if test="${ empty loginUser }">
 					<li><a href="#" data-toggle="modal" data-target="#myModal"><i
@@ -86,6 +87,40 @@
 	</div>
 </div>
 
+<!-- 회원 가입 모달 -->
+<div class="modal fade" id="joinModal" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+		<div class="modal-header">
+		회원가입
+		</div>
+			<div class="auth-form-body">
+
+				<div class="error">
+					<span class="label label-danger">ERROR!</span>
+				</div>
+
+				<label for="join_field">ID</label> 
+				<input autocapitalize="off" autocorrect="off" autofocus="autofocus" class="form-control input-block" id="uid" name="name" tabindex="1"
+					type="text"> 
+				<label for="join_field">E-mail</label> 
+				<input autocapitalize="off" autocorrect="off" autofocus="autofocus" class="form-control input-block" id="email" name="email" tabindex="1"
+					type="text"> 
+					<label for="password">Password</label> 
+				<input class="form-control form-control input-block" id="upass"
+					name="password" tabindex="1" type="password"> 
+					<label for="password">Password 확인</label> 
+					<input class="form-control form-control input-block" id="password-chk"
+					name="password-chk" tabindex="2" type="password"> 
+					<input
+					id="btnJoin" class="btn btn-primary btn-block"
+					data-disable-with="Signing in…" name="commit" tabindex="3"
+					type="button" value="Join">
+			</div>
+		</div>
+	</div>
+</div>
 <script>
 	$("#btnLogin").click(function() {
 		var uid = $("#id").val();
@@ -103,6 +138,34 @@
 			} else {
 				$(".error").css("display", "block");
 			}
+		});
+	});
+	
+	$("#btnJoin").click(function() {
+		var uid = $("#uid").val();
+		var email = $("#email").val(); 
+		var pass = $("#upass").val();
+		var passchx = $('#password-chk').val();
+		
+		if ( pass != passchx ) {
+			alert('비밀번호가 다릅니다.');
+			$('#upass').focus().select();
+			return ;
+		}
+		
+		var formData = {
+			uid : uid,
+			pw : pass,
+			email : email
+		};
+		
+		$.post(ctxpath + '/join', formData, function(resp) {
+			console.log('응답1', resp);
+			var json = JSON.parse(resp);
+			console.log('응답2', json);
+			if (json.success) {
+				location.reload();
+			} 
 		});
 	});
 </script>

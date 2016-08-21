@@ -73,13 +73,33 @@ public class UserController {
 		String userid = req.getParameter("uid");
 		String password = req.getParameter("pw");
 
-		System.out.println("아이디 : "+userid);
 		UserVO loginUser = userDao.Login( userid, password );
 			
 		String jsonString = "";
 		if ( loginUser != null ) {
 			System.out.println("OK");
 			session.setAttribute("loginUser", loginUser);
+			jsonString = "{\"success\": true}";
+		} else {
+			System.out.println("Fail");
+			jsonString = "{\"success\": false}";
+		}
+		return jsonString; // @ResponseBody {}.jsp(x),  
+	}
+	
+	@RequestMapping(value="/join", method = RequestMethod.POST)
+	public @ResponseBody String join_ok( HttpServletRequest req, HttpSession session ){
+		req.setAttribute ( "msg", "WELCOME!");
+		String userid = req.getParameter("uid");
+		String password = req.getParameter("pw");
+		String email = req.getParameter("email");
+
+		UserVO joinUser = new UserVO(userid, password, email);
+		userDao.Join( joinUser );
+			
+		String jsonString = "";
+		if ( joinUser != null ) {
+			System.out.println("OK");
 			jsonString = "{\"success\": true}";
 		} else {
 			System.out.println("Fail");

@@ -77,17 +77,11 @@ public class UserDao {
 		}
 	}
 
-	private class UserMapper implements RowMapper<UserVO> {
+	
 
-		public UserMapper() {
-
-		}
-
-		@Override
-		public UserVO mapRow(ResultSet rs, int rowNum) throws SQLException {
-			// TODO Auto-generated method stub
-			return null;
-		}
+	public void Join(UserVO joinUser) {
+		String query = "insert into users(userid, email, password) values (?, ?, ?)";
+		template.update(query, joinUser.getUserid(), joinUser.getEmail(), joinUser.getPassword() );
 
 	}
 }

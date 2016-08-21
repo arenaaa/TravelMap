@@ -11,9 +11,16 @@ public class UserVO {
 	public UserVO() {
 		
 	}
+	
 	public UserVO(int seq, String userid, String password, String email) {
 		super();
 		this.seq = seq;
+		this.userid = userid;
+		this.password = password;
+		this.email = email;
+	}
+	
+	public UserVO(String userid, String password, String email) {
 		this.userid = userid;
 		this.password = password;
 		this.email = email;

@@ -1,5 +1,6 @@
 package github.arenaaa.travelmap;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -167,5 +168,30 @@ public class GuestController {
 		return map;
 	}
 	
+	@RequestMapping(value="enroll", method=RequestMethod.GET)
+    public String pageEnrollbyAdmin ( ) {
+        return "enroll";
+    }
+
+    @RequestMapping(value="placeurl", method=RequestMethod.GET, produces="application/json;charset=utf-8")
+    public @ResponseBody String parseGhUrl ( @RequestParam  String dmapPlaceUrl ) {
+
+        try {
+
+            Connection con  = Jsoup.connect(dmapPlaceUrl) ;
+            con.timeout(60 * 1000);
+            Document doc = con.get();
+            String url = doc.select("#daumContent #homepageTooltip a.f_l").attr("href").trim();
+            System.out.println("URL: " + dmapPlaceUrl + " => " + url);
+            if ( url.length() == 0  ) {
+                return "{\"success\" : false , \"cause\": \"{0}\" }".replace("{0}", "NO_URL");                
+            } else {
+                return "{\"success\" : true , \"url\": \"{0}\" }".replace("{0}", url);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "{\"success\" : false , \"cause\": \"{0}\" }".replace("{0}", e.getMessage());
+        }
+    }
 }
 
