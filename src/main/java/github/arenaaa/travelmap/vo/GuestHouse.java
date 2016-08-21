@@ -8,8 +8,11 @@ public class GuestHouse {
 	private double lat;
 	private double lng;
 	private String url;
+	private String address;
+	private String phone;
 	
-	public GuestHouse(Integer id, String name, String info, double lat, double lng, String url) {
+	
+	public GuestHouse(Integer id, String name, String info, double lat, double lng, String url, String address, String phone) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -17,6 +20,8 @@ public class GuestHouse {
 		this.lat = lat;
 		this.lng = lng;
 		this.url = url;
+		this.address = address;
+		this.phone = phone;
 	}
 	public Integer getId() {
 		return id;
@@ -55,6 +60,18 @@ public class GuestHouse {
 		this.url = url;
 	}
 	
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 	@Override
 	public String toString() {
 		return "GuestHouse [id=" + id + ", name=" + name + ", info=" + info + ", lat=" + lat + ", lng=" + lng + ", url="

@@ -48,8 +48,10 @@ public class GhDao {
 				Double lat = rs.getDouble("lat");
 				Double lng = rs.getDouble("lng");
 				String url = rs.getString("url");
+				String address = rs.getString("address");
+				String phone = rs.getString("phone");
 
-				GuestHouse gh = new GuestHouse(id, name, info, lat, lng, url);
+				GuestHouse gh = new GuestHouse(id, name, info, lat, lng, url, address, phone);
 				return gh;
 			}
 		});
@@ -75,8 +77,11 @@ public class GhDao {
 				Double lat = rs.getDouble("lat");
 				Double lng = rs.getDouble("lng");
 				String url = rs.getString("url");
+				String address= rs.getString("address");
+				String phone = rs.getString("phone");
+						
 
-				GuestHouse gh = new GuestHouse(id, name, info, lat, lng, url);
+				GuestHouse gh = new GuestHouse(id, name, info, lat, lng, url, address, phone);
 				return gh;
 			}
 
@@ -104,8 +109,11 @@ public class GhDao {
 				Double lat = rs.getDouble("lat");
 				Double lng = rs.getDouble("lng");
 				String url = rs.getString("url");
+				String address= rs.getString("address");
+				String phone = rs.getString("phone");
+						
 
-				GuestHouse gh = new GuestHouse(id, name, info, lat, lng, url);
+				GuestHouse gh = new GuestHouse(id, name, info, lat, lng, url, address, phone);
 				return gh;
 			}
 

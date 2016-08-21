@@ -72,6 +72,10 @@
 	float: right;
 }
 
+#rating {
+	padding : 0 10px;
+}
+
 #rating .star_rating {
 	font-size: 0;
 	letter-spacing: -4px;
@@ -136,18 +140,27 @@
 }
 
 .tab-pane {
-	padding: 15px 0;
+	padding: 0;
 }
 
 .tab-content {
-	padding: 20px
+	padding: 0px
 }
 
+h3.gh-title {
+	margin : 0;
+	padding : 10px;
+	font-size: 1.3em;
+}
 .card {
 	background: #FFF none repeat scroll 0% 0%;
 	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
 	margin-bottom: 30px;
 }
+#gh-content {
+	padding : 0 10px;
+}
+
 /*
 .fixed_img_row ul{margin:0;padding:0;font-size:12px;font-family:Tahoma, Geneva, sans-serif;list-style:none}
 .fixed_img_row li{position:relative;margin:0 0 -1px 0;padding:15px 0 15px 135px;border:1px solid #eee;border-left:0;border-right:0;vertical-align:top;*zoom:1}
@@ -270,6 +283,7 @@ $(document).ready ( function() {
 		
 		var ghId = $(e.target).data('gh');
 		
+		markerCluster.resetViewport();
 		for ( var i = 0; i < markers.length; i++) {
 			if( markers[i].gh.id == ghId ) {
 				// new google.maps.event.trigger( markers[i], 'click');
@@ -310,9 +324,8 @@ $(document).ready ( function() {
 							<!-- Tab panes -->
 							<div class="tab-content">
 								<div role="tabpanel" class="tab-pane active" id="home">
-									<h3>
-										<span id="gh-name"></span> [ <a id="gh-link" href="#">LINK</a>
-										]
+									<h3 class="gh-title">
+										<span id="gh-name"></span> [ <a id="gh-link" href="#">LINK</a> ]
 										<c:if test="${not empty loginUser }">
 											<i class="fa fa-plus-square" aria-hidden="true"></i>
 										</c:if>
@@ -326,6 +339,11 @@ $(document).ready ( function() {
 												class="on fa fa-star fw"></a>
 										</p>
 									</div>
+									<div id="gh-content">
+										<div id="gh-address">제주시 어디 어디 어디 어디</div>
+										<div id="gh-phone"><a href="tel:01062786793">010-4444-4444</a></div>
+									</div>
+									
 								</div>
 
 								<div role="tabpanel" class="tab-pane" id="profile">
@@ -435,6 +453,17 @@ $(document).ready ( function() {
 		});
 	}
 	
+	function getCurrentLocation(cbSuccess, cbFail) {
+		
+		
+	    if (navigator.geolocation) {
+	        navigator.geolocation.getCurrentPosition(cbSuccess, cbFail);
+	    } else {
+	        console.log ( "Geolocation is not supported by this browser.") ;
+	        cbFail ( 'fail' );
+	    }
+	}
+	
 	function installControlls ( map ) {
 		var searchCtrl = document.createElement('div');
 	    $(searchCtrl).css('margin' , '10px');
@@ -450,6 +479,29 @@ $(document).ready ( function() {
 		
 		map.controls[google.maps.ControlPosition.TOP_RIGHT].push(searchCtrl);
 		
+		var myposition =$('<div style="-webkit-user-select: none; box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; border-radius: 2px; cursor: pointer; width: 28px; height: 28px; background-color: rgb(255, 255, 255);text-align:center"><i class="fa fa-location-arrow fa-2x" aria-hidden="true" style="margin-top:3px;"></i></div>')
+		searchCtrl.appendChild ( myposition[0] );
+		
+		myposition.on ( 'click', function(){
+			getCurrentLocation(function(position) {
+				var lat = position.coords.latitude;
+				var lng = position.coords.longitude;
+				var myLatLng = { lat:lat, lng:lng };
+				map.setCenter(myLatLng);
+				/*
+				var marker = new google.maps.Marker({
+				    position: myLatLng,
+				    map: map,
+				    title: '나의 위치'
+				});
+			 	markers.push(marker);
+				*/
+				
+			}, function( error ) {
+				console.log(error );
+			});
+		
+		});
 		
 	}
 
@@ -465,6 +517,7 @@ $(document).ready ( function() {
 			content : 'no content'
 		});
 
+			
 		//guesthouses 배열의 값을 마커로 출력
 		for (var i = 0; i < guesthouses.length; i++) {
 			var marker = new google.maps.Marker({
@@ -472,6 +525,11 @@ $(document).ready ( function() {
 					lat : guesthouses[i].lat,
 					lng : guesthouses[i].lng
 				},
+				icon : {
+					fillColor : 'yellow' ,
+					fillOpacity : 0.5,
+					path : 'M-5,0a5,5 0 1,0 10,0a5,5 0 1,0 -10,0'
+				} ,
 				map : map,
 				title : guesthouses[i].name,
 				gh : guesthouses[i]
@@ -496,18 +554,22 @@ $(document).ready ( function() {
 			markers[k].setMap ( null );
 		}
 		*/
-		
+		/*
 		 var options = {
 		 	imagePath: ctxpath + '/resources/images/m'
 		 };
 
 		markerCluster = new MarkerClusterer(map, markers, options);
+		*/
 	}
 
 	function updateGhInfo(gh) {
 		$('#gh-info').css('display', 'block');
 		$('#gh-name').html(gh.name)
 		$('#gh-link').attr("href", gh.url);
+		$('#gh-address').html(gh.address);
+		$('#gh-phone a').html(gh.phone);
+		$('#gh-phone a').attr('href', 'tel:' + gh.phone);
 		activeGh = gh;
 	}
 	
