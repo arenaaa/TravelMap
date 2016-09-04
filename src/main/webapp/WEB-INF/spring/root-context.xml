@@ -26,4 +26,19 @@
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"> 
         <property name="dataSource" ref="ds"></property> 
     </bean>
+    
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
+        <property name="port" value="${mail.port}"></property> 
+        <property name="host" value="${mail.host}"></property> 
+        <property name="username" value="${mail.user}"></property> 
+        <property name="password" value="${mail.password}"></property> 
+        <property name="defaultEncoding" value="utf8"></property> 
+        <property name="javaMailProperties"> 
+            <props> 
+                <prop key="mail.smtp.starttls.enable">true</prop> 
+                <prop key="mail.smtp.auth">true</prop> 
+            </props> 
+        </property> 
+
+    </bean>
 </beans>

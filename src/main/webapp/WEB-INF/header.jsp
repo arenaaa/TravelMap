@@ -71,7 +71,8 @@
 			<div class="auth-form-body">
 
 				<div class="error">
-					<span class="label label-danger">ERROR!</span>
+					<span class="label label-danger">	ERROR!</span>
+					<button type="button" class="btn btn-info" id="fgpw-btn"><a href="<%=request.getContextPath()%>/forgotpw">비밀번호 재설정</a></button>
 				</div>
 				<label> ID:tom, PW:1111 입력 </label><p>
 				<label for="login_field">ID</label> 
@@ -86,6 +87,8 @@
 		</div>
 	</div>
 </div>
+
+
 
 <!-- 회원 가입 모달 -->
 <div class="modal fade" id="joinModal" role="dialog">

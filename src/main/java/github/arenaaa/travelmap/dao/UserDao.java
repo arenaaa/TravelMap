@@ -84,4 +84,28 @@ public class UserDao {
 		template.update(query, joinUser.getUserid(), joinUser.getEmail(), joinUser.getPassword() );
 
 	}
+	/**
+	 * 주어진 이메일이 존재하면 대응하는 seq반환 , 그렇지 않으면 -1 반환.
+	 * @param email
+	 * @return
+	 */
+	public List<Integer> findByEmail(String email) {
+		String query = "select seq from users where email = ?";
+		List<Integer> seq = template.query(query, new Object[] {email}, new RowMapper<Integer> (){
+
+			@Override
+			public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				Integer seq = rs.getInt(1);
+				return seq;
+			}
+		});
+		return seq; 
+	}
+
+	public void insertResetPw(Integer userSeq, String token, String genPw, int expMins) {
+		String query = "insert into resetpw (genpw, userid, expired, token, closed) values ( ?, ? , DATE_ADD(NOW(), INTERVAL ? MINUTE), ?, 'n' )";
+		template.update(query, new Object[] { genPw, userSeq, expMins, token });
+	}
+
 }

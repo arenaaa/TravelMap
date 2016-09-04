@@ -1,5 +1,9 @@
 package github.arenaaa.travelmap;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -8,10 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import github.arenaaa.travelmap.dao.UserDao;
+import github.arenaaa.travelmap.service.UserService;
 import github.arenaaa.travelmap.vo.UserVO;
 
 @Controller
@@ -19,6 +25,9 @@ public class UserController {
 
 	@Autowired
 	private UserDao userDao ; //userDao 생성해줌
+	
+	@Autowired
+	UserService userService ;
 	
 	public String pageLogin() {
 		return "login";
@@ -133,6 +142,34 @@ public class UserController {
 	@RequestMapping(value="/update", method = RequestMethod.GET)
 	public String update(HttpServletRequest req, HttpSession session) {
 		return "/update";
+	}
+	
+	@RequestMapping(value="forgotpw", method=RequestMethod.GET)
+	public String forgotpw() {
+		return "forgotpw";
+	}
+	
+	@RequestMapping(value="doresetpw", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object>  doresetpw( @RequestParam(value="email") String email ) {
+		Map<String, Object> json = new HashMap<>();
+		
+		List<Integer> seq = userDao.findByEmail(email);
+		
+		if( !seq.isEmpty() ) {
+			
+			
+			userService.resetPw( seq.get(0), email, 60 );
+			json.put("success", true);
+			json.put("email", email);
+			
+			return json;
+		} else {
+			json.put("success", false);
+			json.put("cause", "NO_SUCH_EMAIL");
+			
+			return json;
+			
+		}
 	}
 	
 	

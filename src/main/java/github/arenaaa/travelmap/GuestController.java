@@ -173,6 +173,9 @@ public class GuestController {
         return "enroll";
     }
 
+	
+	
+	
     @RequestMapping(value="placeurl", method=RequestMethod.GET, produces="application/json;charset=utf-8")
     public @ResponseBody String parseGhUrl ( @RequestParam  String dmapPlaceUrl ) {
 
