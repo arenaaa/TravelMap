@@ -16,7 +16,7 @@ import org.junit.Test;
 
 public class NaverSearchTest {
 
-	@Test
+	
 	public void test_parsing_html() throws IOException {
 		/*
 		 * http://blog.saltfactory.net/html5/using-html5-custom-data-attributes.
@@ -31,7 +31,7 @@ public class NaverSearchTest {
 		}
 	}
 
-	@Test
+	
 	public void test_parsing_xml() throws IOException {
 		Connection con = Jsoup.connect(
 				"https://openapi.naver.com/v1/search/blog.xml?query=" + keyword("소낭게스트하우스") + "&start=1&display=10");
@@ -54,6 +54,11 @@ public class NaverSearchTest {
 
 	private String keyword(String keyword) throws UnsupportedEncodingException {
 		return URLEncoder.encode(keyword, "UTF-8");
+	}
+	
+	@Test
+	public void spring() {
+		System.out.println(org.springframework.core.SpringVersion.getVersion());
 	}
 
 }

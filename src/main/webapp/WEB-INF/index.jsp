@@ -17,7 +17,7 @@
 <link rel="icon"
 	href="<%=request.getContextPath()%>/resources/images/favicon.ico"
 	type="image/x-icon" />
-<title>맹뜌</title>
+<title>맹지현</title>
 
 <!-- Bootstrap Core CSS -->
 <link
@@ -282,8 +282,9 @@ $(document).ready ( function() {
 	$('#search-tbl').on('click', function(e){
 		
 		var ghId = $(e.target).data('gh');
-		
+		/**
 		markerCluster.resetViewport();
+		*/
 		for ( var i = 0; i < markers.length; i++) {
 			if( markers[i].gh.id == ghId ) {
 				// new google.maps.event.trigger( markers[i], 'click');
@@ -386,7 +387,7 @@ $(document).ready ( function() {
             <table class="table" id="search-tbl">
             </table>
 			
-		</div>
+			
 
 		</div>
 	</div>
@@ -438,6 +439,7 @@ $(document).ready ( function() {
 
 	}
 
+	// DB에서 데이터 받아오는 함수
 	function loadGoogleMap() {
 
 		adjustSize(0.5);
@@ -554,13 +556,13 @@ $(document).ready ( function() {
 			markers[k].setMap ( null );
 		}
 		*/
-		/*
-		 var options = {
+		
+		var options = {
 		 	imagePath: ctxpath + '/resources/images/m'
 		 };
 
 		markerCluster = new MarkerClusterer(map, markers, options);
-		*/
+		
 	}
 
 	function updateGhInfo(gh) {
@@ -579,6 +581,10 @@ $(document).ready ( function() {
 
 		var content = template.replace("{0}", gh.url).replace("{1}",
 				gh.name).replace("{id}", 'gh' + gh.id); // id="btn"
+		if(map.getZoom() <= 17) {
+			map.setZoom ( 17 );				
+		} 
+		map.setCenter(marker.getPosition());
 		infowindow.setContent(content);
 		infowindow.open(map, marker);
 	}

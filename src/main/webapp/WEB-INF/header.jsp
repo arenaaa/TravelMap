@@ -66,14 +66,14 @@
 		<div class="modal-content">
 		<div class="modal-header">
 		<i class="fa fa-hand-o-right" aria-hidden="true"></i>
-		Login
+		Login  
 		</div>
 			<div class="auth-form-body">
 
 				<div class="error">
 					<span class="label label-danger">ERROR!</span>
 				</div>
-
+				<label> ID:tom, PW:1111 입력 </label><p>
 				<label for="login_field">ID</label> 
 				<input autocapitalize="off" autocorrect="off" autofocus="autofocus" class="form-control input-block" id="id" name="login" tabindex="1"
 					type="text"> <label for="password">Password</label> <input
