@@ -34,7 +34,7 @@ public class MailService {
             MimeMessageHelper helper = new MimeMessageHelper(msg, true, "utf-8"); 
             helper.setSubject(title); 
             helper.setText(content, true); 
-            helper.setTo(new InternetAddress(receiverEmail, "서군님", "utf-8")); 
+            helper.setTo(new InternetAddress(receiverEmail, "tmapAdmin님", "utf-8")); 
 
             /* 
             MimeMultipart mmp = new MimeMultipart(); 

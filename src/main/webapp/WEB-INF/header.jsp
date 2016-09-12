@@ -72,7 +72,6 @@
 
 				<div class="error">
 					<span class="label label-danger">	ERROR!</span>
-					<button type="button" class="btn btn-info" id="fgpw-btn"><a href="<%=request.getContextPath()%>/forgotpw">비밀번호 재설정</a></button>
 				</div>
 				<label> ID:tom, PW:1111 입력 </label><p>
 				<label for="login_field">ID</label> 
@@ -83,6 +82,8 @@
 					id="btnLogin" class="btn btn-primary btn-block"
 					data-disable-with="Signing in…" name="commit" tabindex="3"
 					type="button" value="Sign in">
+					<class="btn btn-info"><a href="<%=request.getContextPath()%>/forgotpw">비밀번호 재설정</a></div>
+					<%-- <button type="button"  id="fgpw-btn"><a href="<%=request.getContextPath()%>/forgotpw">비밀번호 재설정</a></button> --%>
 			</div>
 		</div>
 	</div>
