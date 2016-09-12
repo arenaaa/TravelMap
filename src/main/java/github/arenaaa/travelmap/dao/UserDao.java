@@ -108,4 +108,38 @@ public class UserDao {
 		template.update(query, new Object[] { genPw, userSeq, expMins, token });
 	}
 
+	public UserVO findUserByPath(String path, String closed) {
+		
+		String query = "select * from users where seq in ( select userid from resetpw  where token = ? and closed = ?);";
+		List<UserVO> uservo = template.query(query, new Object[] {path, closed}, new RowMapper<UserVO>() {
+			
+			@Override
+			public UserVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Integer seq = rs.getInt("seq");
+				String userid = rs.getString("userid");
+				String email = rs.getString("email");
+				String password = rs.getString("password");
+				
+				UserVO uservo = new UserVO(seq, userid, password, email);
+				
+				return uservo;
+			}
+		});
+		if ( uservo.isEmpty() ){
+			return null;
+		} else{
+			return uservo.get(0);
+		}
+	}
+
+	public void update(UserVO user) {
+		String query = "update users set password =? where seq = ?";
+		template.update(query, new Object[] {user.getPassword(), user.getSeq()});
+	}
+
+	public void closedPath(Integer userseq) {
+		String query = "DELETE FROM resetpw WHERE userid = ?";
+		template.update(query, new Object[] {userseq});
+	}
+
 }

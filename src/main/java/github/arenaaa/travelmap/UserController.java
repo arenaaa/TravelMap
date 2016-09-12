@@ -7,17 +7,21 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import github.arenaaa.travelmap.dao.GhDao;
 import github.arenaaa.travelmap.dao.UserDao;
 import github.arenaaa.travelmap.service.UserService;
+import github.arenaaa.travelmap.vo.GuestHouse;
 import github.arenaaa.travelmap.vo.UserVO;
 
 @Controller
@@ -172,5 +176,54 @@ public class UserController {
 		}
 	}
 	
+	/*
+	// /around/36.44344,126.2333
+	 * /around?lat
+	 *
+	@RequestMapping(value="/around/{lat},{lng}" )
+	public List<GuestHouse> findAround( @PathParam(value="lat") String lat, String lng, double radium ) {
+		return nulll;
+	}
+	*/
+	
+	@RequestMapping(value="resetpw/{path}", method=RequestMethod.GET)
+	public String updatepwpage(@PathVariable(value = "path") String path, HttpSession session) {
+		System.out.println("[" + path + "]");
+		UserVO user = userDao.findUserByPath ( path, "n" );
+		if ( user == null ) {
+			session.invalidate();
+			return "expired";
+		}
+		
+		session.setAttribute("user", user); // Session 생성 시 user 라는 이름으로 넣어줌
+		return "updatepw"; //xxxx.jsp
+	}
+	/* 클라이언트                           서버
+	 * 
+	 * 1. 이메일 입력   --------------->  1.1 ppth 생성
+	 *                                 1.2 db에 path와 이메일을 넣어둠.
+	 *                                 1.3 이메일 전송
+	 *                                 
+	 * 2. 이메일 로그인을 함.
+	 *    링크를 클릭( /doupdoupdate/dekdk3d...) ---> 2.1 {path}를 잡아냄
+	 *                                             2.2 path로 이메일(사용자)를 찾아냄
+	 *                                             2.3 
+	 *                        
+	 */
+	@RequestMapping(value="doupdatepw", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> doupdatepw (@RequestParam (value="InputPw") String password, HttpSession session) {
+		
+		UserVO user = (UserVO) session.getAttribute("user"); //Session 에서 생성한 user 이름으로 받아옴
+		Integer userseq = user.getSeq();
+		user.setPassword(password);
+		userDao.update(user);
+		userDao.closedPath(userseq);
+		session.invalidate();
+		
+		Map<String, Object> resp = new HashMap<>();
+		resp.put("success", true);
+		
+		return resp;
+	}
 	
 }

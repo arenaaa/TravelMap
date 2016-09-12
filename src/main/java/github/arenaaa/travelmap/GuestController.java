@@ -132,7 +132,7 @@ public class GuestController {
 		return xml ;
 	}
 	
-	@RequestMapping(value="/registergh", method=RequestMethod.POST)
+	@RequestMapping(value="/registergh", method=RequestMethod.GET)
 	public String registergh( HttpServletRequest req, HttpSession session ) {
 		return "registergh";
 	}

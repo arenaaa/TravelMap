@@ -29,14 +29,24 @@
 							class="fa fa-sign-in fa-fw"> </i> 로그인</a>
 				</c:if>
 				<c:if test="${not empty loginUser }">
-					<li><a href="<%=request.getContextPath()%>/mygh"><i
-							class="fa fa-cubes"></i> 관심 게하</a></li>
-					<li><a href="<%=request.getContextPath()%>/registergh">
+					<li class="dropdown">
+              			<a href="#" class="dropdown-toggle" data-toggle="dropdown"> 메뉴 <b class="caret"></b></a>
+              				<ul class="dropdown-menu">
+                	<li><a href="<%=request.getContextPath()%>/mygh"><i class="fa fa-cubes"></i> 관심 게하</a></li>
+                	<li><a href="<%=request.getContextPath()%>/registergh">
 						<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 						글쓰기</a></li>
+               		 <li><a href="<%=request.getContextPath()%>/updatepw">비밀번호 변경</a></li>
+                	<li class="divider"></li>
+                	<li><a href="#">Separated link</a></li>
+              </ul>
+            </li>
+					
 					<li><a href="<%=request.getContextPath()%>/logout"><i
 							class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+							
 				</c:if>
+       
 				<!-- 
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
