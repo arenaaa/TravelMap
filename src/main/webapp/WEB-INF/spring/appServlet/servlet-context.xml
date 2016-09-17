@@ -44,7 +44,8 @@
 	              그 안에 있는 메소드가 필드들에 다시 특정 어노테이션이 있는 애들을 골라서 어떤(?) 처리를 해줍니다.
 	               
 	 -->
-	<context:component-scan base-package="github.arenaaa.travelmap" />
+	<context:component-scan base-package="github.arenaaa.travelmap" >
+	</context:component-scan>
 	
 	
 	
