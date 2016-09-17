@@ -5,6 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css"rel="stylesheet">
+
 <style type="text/css">
 #cross {
     position : absolute;
@@ -104,7 +105,7 @@ $(document).ready ( function (){
 });
 </script>
 
-<title>게스트하우스 위경도 검색</title>
+<title>게스트하우스 올레길 경로 입력 도구</title>
 </head>
 <body>
 <div class="container-fluid">
@@ -121,7 +122,7 @@ $(document).ready ( function (){
         </div>
         <div class="col-xs-4">
             <textarea rows="30" class="form-control" id="path"></textarea>
-            <button id="commit">저장하기</button>
+            <button id="commit" onclick="updatepath()">올레길 갱신하기</button>
             
         </div>
     </div>
@@ -131,22 +132,26 @@ $(document).ready ( function (){
 <div class="map_wrap">
     <div id="drawingMap"></div>
     <p class="modes">
-    	<select id="route" onchange="showPath()">
+    	<div class="col-xs-8">
+            
+    	<select id="route" onchange="showPath()" >
 		  <option>[코스선택]</option>
 		  <option value="1" >올레길1코스</option>
 		  <option value="2">올레길2코스</option>
 		  <option value="3">올레길3코스</option>
 		  <option value="4">올레길4코스</option>
-		</select><p>
+		</select>
 	    <button onclick="selectOverlay('MARKER')">마커</button>
 	    <button onclick="selectOverlay('POLYLINE')">선</button>
 	    <button onclick="printlatlng()">가져오기</button>
+	    <button onclick="removeline()">지우기</button>
 	    
-	</p>
-	<p class="edit">
+	    
+	    <p class="edit">
 		<button id="undo" class="disabled" onclick="undo()" disabled>UNDO</button>
 	    <button id="redo" class="disabled" onclick="redo()" disabled>REDO</button>
 	</p>
+	</div>
 </div>
 </body>
 <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=6960b8f8bc93e9fd96bc91dff9cb3497&libraries=services,drawing"></script>
@@ -252,6 +257,23 @@ function printlatlng() {
     }
     */
     $('#path').val ( something );
+}
+function removeline() {
+	removeOverlays();
+}
+
+function updatepath() {
+	var sel = $('#route')[0];
+	var path = $('#path').val();
+	var id =  sel.item ( sel.selectedIndex ).value ;
+	var formData = {
+		pathid : id,
+		path : path
+	};
+	$.post(ctxpath + '/updatepath', formData, function(resp) {
+		console.log(resp);
+		alert('갱신하였습니다.');
+	});
 }
 
 function getpath(points) {

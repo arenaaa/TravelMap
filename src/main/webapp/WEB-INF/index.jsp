@@ -191,7 +191,8 @@ $(document).ready ( function() {
 			  var search = resp.childNodes[0];
 			  var items = search.childNodes; // array
 			  var searchHtml = '<ul>';
-			  var li = '<li><a href="{l}" target="blank">{t}</a></li>';
+			  
+			 var li = '<blockquote><a href="{l}" target="blank">{t}</a></blockquote>';
 			  for ( var i = 0 ; i < items.length; i ++ ) {
 				  var item = items[i]; // each item
 				  var title = item.childNodes[0].childNodes[0].textContent;
@@ -319,8 +320,7 @@ $(document).ready ( function() {
 										<!-- UI Object -->
     <ul>
     <li>
-        <a href="#"><span class="thumb"><img src="img/@thumb.jpg" width="120" alt=""> <em>Category</em></span> <strong>이미지의 너비가 고정폭 이어야 할 때</strong></a>
-        <p>이미지의 너비가 고정폭일 때 이 스타일을 사용 합니다. 이미지보다 글의 양이 많아지더라도 이미지 아래쪽으로 글이 흐르지 않는 것을 확인 할 수 있습니다. 이미지의 너비가 고정폭일 때 이 스타일을 사용 합니다. 이미지보다 글의 양이 많아지더라도 이미지 아래쪽으로 글이 흐르지 않는 것을 확인 할 수 있습니다. 이미지의 너비가 고정폭일 때 이 스타일을 사용 합니다. 이미지보다 글의 양이 많아지더라도 이미지 아래쪽으로 글이 흐르지 않는 것을 확인 할 수 있습니다. </p>
+   	검색중
     </li>
     </ul>
 </div>

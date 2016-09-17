@@ -2,6 +2,7 @@ package github.arenaaa.travelmap;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,17 @@ public class AdminController {
 		map.put("data", pathstring.trim());
 		
 		return map;
+		
+	}
+	
+	@RequestMapping(value="/updatepath" , method = RequestMethod.POST)
+	public @ResponseBody String updatepath (HttpServletRequest req) {
+		String updatepathstr = req.getParameter("path");
+		String pathid = req.getParameter("pathid");
+		
+		pathDao.updatePath(updatepathstr, pathid);
+		
+		return "{\"success\":true}";
 		
 	}
 }

@@ -38,7 +38,7 @@
 						글쓰기</a></li>
                		 <li><a href="<%=request.getContextPath()%>/updatepw">비밀번호 변경</a></li>
                 	<li class="divider"></li>
-                	<li><a href="#">Separated link</a></li>
+                	<li><a href="<%=request.getContextPath()%>/route-editor">관리자 도구</a></li>
               </ul>
             </li>
 					
@@ -84,14 +84,14 @@
 					<span class="label label-danger">	ERROR!</span>
 				</div>
 				<label> ID:tom, PW:1111 입력 </label><p>
-				<label for="login_field">ID</label> 
-				<input autocapitalize="off" autocorrect="off" autofocus="autofocus" class="form-control input-block" id="id" name="login" tabindex="1"
-					type="text"> <label for="password">Password</label> <input
-					class="form-control form-control input-block" id="password"
+				<input autocapitalize="off" autocorrect="off" autofocus="autofocus" class="form-control input-block" placeholder="아이디" id="id" name="login" tabindex="1"
+					type="text">  
+				<input
+					class="form-control form-control input-block"  placeholder="비밀번호" id="password"
 					name="password" tabindex="2" type="password"> <input
 					id="btnLogin" class="btn btn-primary btn-block"
 					data-disable-with="Signing in…" name="commit" tabindex="3"
-					type="button" value="Sign in">
+					type="button" value="로그인">
 					<class="btn btn-info"><a href="<%=request.getContextPath()%>/forgotpw">비밀번호 재설정</a></div>
 					<%-- <button type="button"  id="fgpw-btn"><a href="<%=request.getContextPath()%>/forgotpw">비밀번호 재설정</a></button> --%>
 			</div>
@@ -114,23 +114,18 @@
 				<div class="error">
 					<span class="label label-danger">ERROR!</span>
 				</div>
-
-				<label for="join_field">ID</label> 
-				<input autocapitalize="off" autocorrect="off" autofocus="autofocus" class="form-control input-block" id="uid" name="name" tabindex="1"
+				<input autocapitalize="off" autocorrect="off" autofocus="autofocus" class="form-control input-block"  placeholder="아이디" id="uid" name="name" tabindex="1"
 					type="text"> 
-				<label for="join_field">E-mail</label> 
-				<input autocapitalize="off" autocorrect="off" autofocus="autofocus" class="form-control input-block" id="email" name="email" tabindex="1"
+				<input autocapitalize="off" autocorrect="off" autofocus="autofocus" class="form-control input-block"  placeholder="이메일" id="email" name="email" tabindex="1"
 					type="text"> 
-					<label for="password">Password</label> 
-				<input class="form-control form-control input-block" id="upass"
+				<input class="form-control form-control input-block"  placeholder="비밀번호" id="upass"
 					name="password" tabindex="1" type="password"> 
-					<label for="password">Password 확인</label> 
-					<input class="form-control form-control input-block" id="password-chk"
+					<input class="form-control form-control input-block"  placeholder="비밀번호 확인" id="password-chk"
 					name="password-chk" tabindex="2" type="password"> 
 					<input
 					id="btnJoin" class="btn btn-primary btn-block"
 					data-disable-with="Signing in…" name="commit" tabindex="3"
-					type="button" value="Join">
+					type="button" value="가입">
 			</div>
 		</div>
 	</div>

@@ -31,5 +31,10 @@ public class PathDao {
 		});
 	}
 
+	public void updatePath(String updatepathstr, String pathid) {
+		String query = "update routes set path= ? where id = ?";
+		template.update(query, new Object[] { updatepathstr, pathid });
+	}
+
 
 }
