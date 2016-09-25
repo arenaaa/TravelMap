@@ -369,7 +369,7 @@ $(document).ready ( function() {
 	var activeGh ;
 	var infowindow;
 	var markerCluster ;
-
+	var currentRoute;
 	var curCenter = {
 		lat : 33.504644819360955,
 		lng : 126.4942775800781
@@ -463,6 +463,44 @@ $(document).ready ( function() {
 			});
 		
 		});
+		
+		var ollehCtrl = document.createElement('div');
+		map.controls[google.maps.ControlPosition.TOP].push(ollehCtrl);
+		var ollehSelect = $('<select class="form-control"><option>올레길선택</option><option value="1">올레길 1코스</option><option value="2">올레길 2코스</option></select>');
+		ollehCtrl.appendChild ( ollehSelect[0] );
+		
+		ollehSelect.change(function () {
+		    $( "select option:selected" ).each(function() {
+		    	var sel = $(this).parent(); // [ xxx, zzz, gg ];
+		    	var ollehId = sel[0].item ( sel[0].selectedIndex ).value;
+				$.get(ctxpath + '/olleh/' + ollehId, function(resp) {
+					if ( resp.success ) {
+						var routes = resp.routes ; // [ {lat:23, lng:323}, {lat:323,lng:333}... ]
+						
+						console.log ( routes );
+						if( currentRoute ){
+							currentRoute.setMap(null);
+						}
+						currentRoute = new google.maps.Polyline({
+							clickable : false,
+							map : map,
+							path : routes,
+							strokeColor : '#f00',
+							strokeWeight : 3,
+							zIndex : 10000
+							
+						});
+						
+						var bnd = new google.maps.LatLngBounds();
+						for ( var i=0; i<routes.length; i++){
+							bnd.extend(new google.maps.LatLng(routes[i].lat, routes[i].lng));
+						}
+						map.fitBounds(bnd);
+					}
+				});
+		    });
+		  })
+		  .change();
 		
 	}
 
