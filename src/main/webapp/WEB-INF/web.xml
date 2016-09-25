@@ -20,7 +20,4 @@
     <servlet-name>appServlet</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
-  <listener>
-    <listener-class>github.arenaaa.listener.SessionMonitoring</listener-class>
-  </listener>
 </web-app>

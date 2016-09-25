@@ -123,6 +123,7 @@ $(document).ready ( function (){
         <div class="col-xs-4">
             <textarea rows="30" class="form-control" id="path"></textarea>
             <button id="commit" onclick="updatepath()">올레길 갱신하기</button>
+            <button id="clear" onclick="clearpathString()">모두 지우기</button>
             
         </div>
     </div>
@@ -400,6 +401,9 @@ function displayDetail( ghId ) {
         // $('#query').text ( query );
     });
 
+function clearpathString(){
+	$('#path').value;
+}
 
 }
 
