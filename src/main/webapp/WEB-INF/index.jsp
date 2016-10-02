@@ -268,8 +268,6 @@ $(document).ready ( function() {
 		</div>
 		<div id="gh-info">
 			<!-- tap menu 시작 -->
-			<div class="container">
-				<div class="row">
 					<div>
 						<!-- Nav tabs -->
 						<div class="card"> <!-- $('#home').tab('show') -->
@@ -330,8 +328,6 @@ $(document).ready ( function() {
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
 			</div>
 			<!-- 끝 -->
 		<div id="gh-search" class="input-group input-group-hg input-group-rounded">
