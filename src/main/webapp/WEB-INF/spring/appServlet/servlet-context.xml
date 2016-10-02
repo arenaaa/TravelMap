@@ -34,6 +34,8 @@
 	</beans:bean>
 	<beans:bean id="userDao" class="github.arenaaa.travelmap.dao.UserDao">
 	</beans:bean>
+	<beans:bean id="adminDao" class="github.arenaaa.travelmap.dao.AdminDao">
+	</beans:bean>
 	<!-- 
 	<beans:bean id="ghservice" class="github.arenaaa.travelmap.SearchService">
 	</beans:bean>

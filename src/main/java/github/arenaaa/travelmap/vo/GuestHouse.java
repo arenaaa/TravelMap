@@ -10,7 +10,7 @@ public class GuestHouse {
 	private String url;
 	private String address;
 	private String phone;
-	
+	private Integer owner;
 	
 	public GuestHouse(Integer id, String name, String info, double lat, double lng, String url, String address, String phone) {
 		super();
@@ -72,6 +72,7 @@ public class GuestHouse {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	
 	@Override
 	public String toString() {
 		return "GuestHouse [id=" + id + ", name=" + name + ", info=" + info + ", lat=" + lat + ", lng=" + lng + ", url="

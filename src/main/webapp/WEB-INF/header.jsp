@@ -38,7 +38,7 @@
 						글쓰기</a></li>
                		 <li><a href="<%=request.getContextPath()%>/updatepw">비밀번호 변경</a></li>
                 	<li class="divider"></li>
-                	<li><a href="<%=request.getContextPath()%>/route-editor">관리자 도구</a></li>
+                	<li><a href="<%=request.getContextPath()%>/admin">관리자 도구</a></li>
               </ul>
             </li>
 					
