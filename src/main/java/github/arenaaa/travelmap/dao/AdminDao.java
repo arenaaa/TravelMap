@@ -88,6 +88,37 @@ public class AdminDao {
 		
 		return detail;
 	}
+
+	public void updateGH () {
+		;
+	}
+	public void updateghDetail(DetailVO detail) {
+		String query="UPDATE ghdetails SET "
+				+ "womanonly = ?, "
+				+ "breakfaststart = ?, "
+				+ "breakfastend = ?, "
+				+ "limittime = ?, "
+				+ "food_outside_only = ?, "
+				+ "extra = ?, "
+				+ "parkinglot = ?, "
+				+ "bbq = ?, "
+				+ "bbqmemo = ?, "
+				+ "checkin = ?, "
+				+ "checkout = ? "
+				+ "WHERE id=?";
+		template.update(query, new Object[] {
+				detail.isWomanOnly() ? "Y" :"N", 
+				detail.getBreakfastStart(), detail.getBreakfastEnd(),
+				detail.getLimitTime(),
+				detail.isFoodOutsideOnly() ? "Y" :"N",
+				detail.getExtra(),
+				detail.getParkingLot(),
+				detail.isBbq() ? "Y" :"N",
+				detail.getBbqMemo(),
+				detail.getCheckin(),
+				detail.getCheckout(),
+				detail.getId() });
+	}
 	
 	
 	

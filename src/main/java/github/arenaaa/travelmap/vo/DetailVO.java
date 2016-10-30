@@ -21,6 +21,9 @@ public class DetailVO {
 	private String checkin;
 	private String checkout;
 	
+	public DetailVO() {
+		// TODO Auto-generated constructor stub
+	}
 	public DetailVO(Integer id, boolean womanOnly, String breakfastStart, String breakfastEnd, String limitTime,
 			boolean foodOutsideOnly, String extra, Integer parkingLot, boolean bbq, String bbqMemo, String checkin,
 			String checkout) {
@@ -139,5 +142,14 @@ public class DetailVO {
 	public void setCheckout(String checkout) {
 		this.checkout = checkout;
 	}
+
+	@Override
+	public String toString() {
+		return "DetailVO [id=" + id + ", womanOnly=" + womanOnly + ", breakfastStart=" + breakfastStart
+				+ ", breakfastEnd=" + breakfastEnd + ", limitTime=" + limitTime + ", foodOutsideOnly=" + foodOutsideOnly
+				+ ", extra=" + extra + ", parkingLot=" + parkingLot + ", bbq=" + bbq + ", bbqMemo=" + bbqMemo
+				+ ", checkin=" + checkin + ", checkout=" + checkout + "]";
+	}
+	
 	
 }

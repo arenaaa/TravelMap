@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -71,7 +73,7 @@ public class AdminController {
 		return "{\"success\":true}";
 		
 	}
-	
+		
 	@RequestMapping(value="/ghdetail/{ghid}" , method = RequestMethod.GET)
 	public @ResponseBody DetailVO ghdetail(@PathVariable(value = "ghid") String ghid) {
 		
@@ -79,4 +81,21 @@ public class AdminController {
 		return detail;
 		
 	}
+	
+	@RequestMapping(value="/ghdetail/edit" , method = RequestMethod.POST)
+	public @ResponseBody String updateGHDetail ( @ModelAttribute DetailVO detail, BindingResult result ) {
+		System.out.println( detail );
+		if ( result.hasErrors() ) {
+			System.out.println("바인딩 에러 발생! ");
+		}
+		
+		adminDao.updateghDetail(detail);
+		
+//		DetailVO detail = adminDao.findDetail(ghid);
+		return "{}";
+		
+	}
+	
+	
+	
 }
