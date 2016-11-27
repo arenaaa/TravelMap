@@ -15,7 +15,9 @@
 <script src="<%=request.getContextPath()%>/resources/js/bootstrap.min.js"></script>
 
 <!-- Metis Menu Plugin JavaScript -->
+<!-- 
 <script src="<%=request.getContextPath()%>/resources/js/metisMenu.min.js"></script>
+ -->
 
 <!-- Marker Cluster -->
 <script src="<%=request.getContextPath()%>/resources/js/mc.js"></script>

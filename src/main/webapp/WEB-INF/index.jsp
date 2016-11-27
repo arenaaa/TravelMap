@@ -177,7 +177,64 @@ function enableRating() {
     $('#gh-info').css('display', 'none');
 }
 
+function renderDetail ( ghdetail ) {
+	if ( ghdetail == null ) {
+		$('#nodetail').show();
+		$('#ghdetail').hide();
+	} else {
+		$('#ghdetail').show();
+		$('#nodetail').hide();
+		
+		if(ghdetail.womanOnly) {
+			$('#wmOnly').show();
+		} else {
+			$('#wmOnly').hide();
+		}
+		
+		if(ghdetail.foodOutsideOnly){
+			$('#noFood').show();
+		} else {
+			$('#noFood').hide();
+		}
+		
+		if(ghdetail.bbq){
+			//  <span class="label label-primary">바베큐</span>
+			$('#bbq-option span.label').removeClass('label-default').addClass('label-primary');
+			$('#bbq-memo').text( ghdetail.bbqMemo );
+		} else {
+			$('#bbq-option span.label').removeClass('label-primary').addClass('label-default');
+			$('#bbq-memo').text('제공 안함');
+		}
+		$('#checkin').text(ghdetail.checkin.substring(0,5));
+		$('#checkout').text(ghdetail.checkout.substring(0,5));
+		$('#bfstart').text(ghdetail.breakfastStart.substring(0,5));
+		$('#bfend').text(ghdetail.breakfastEnd.substring(0,5));
+		
+		if(ghdetail.limitTime){
+			$('#limitTime').text(ghdetail.limitTime.substring(0,5));
+		} else {
+			$('#limitTime').text('통금 없음');
+		}
+		$('#parkingLot').text(ghdetail.parkingLot);
+		
+	}
+}
+
 $(document).ready ( function() {
+	$('a[href="#profile"]').on('shown.bs.tab', function(e) {
+		console.log ( '상세정보 봅시다');
+		console.log ( activeGh.id );
+		$.get( ctxpath + '/ghdetail/' + activeGh.id, function ( resp ) {
+			if (resp.success){
+				console.log(resp.detail);
+				renderDetail ( resp.detail);
+			} else {
+				console.log(resp.cause);
+				renderDetail ( null );
+				
+			}
+		})
+	});
 	$('a[href="#messages"]').on('shown.bs.tab', function (e) {
 		 /*
 		  * <ul>
@@ -272,12 +329,9 @@ $(document).ready ( function() {
 						<!-- Nav tabs -->
 						<div class="card"> <!-- $('#home').tab('show') -->
 							<ul class="nav nav-tabs" role="tablist" id="ghTab">
-								<li role="presentation" class="active"><a href="#home"
-									aria-controls="home" role="tab" data-toggle="tab">게스트하우스</a></li>
-								<li role="presentation"><a href="#profile"
-									aria-controls="profile" role="tab" data-toggle="tab">상세정보</a></li>
-								<li role="presentation"><a href="#messages"
-									aria-controls="messages" role="tab" data-toggle="tab">검색결과</a></li>
+								<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">게스트하우스</a></li>
+								<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">상세정보</a></li>
+								<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">검색결과</a></li>
 							</ul>
 
 							<!-- Tab panes -->
@@ -306,12 +360,55 @@ $(document).ready ( function() {
 								</div>
 
 								<div role="tabpanel" class="tab-pane" id="profile">
-									<ul>
-										<li>010-3333-2233</li>
-										<li>addr@naver.com</li>
-										<li>제주시 어디 어디 300-34</li>
-										<li>게스트하우스 소개 내용이 여기 출력됩니다.</li>
-									</ul>
+									<div class="col-xs-12" id="nodetail">
+										상세정보 없음.
+									 	
+									</div>
+									<div class="col-xs-12" id="ghdetail">
+									  <span class="label label-primary" id="wmOnly">여성전용</span>
+									  <span class="label label-primary" id="noFood">실내취사금지</span>
+									  <div class="gh-option" id="bbq-option">
+									    <span class="label label-primary">바베큐</span>
+									  	<div class="msg" id="bbq-memo">1인당 2만원씩입니다. 저녁 20시부터 시작합니다.</div>
+									  	
+									  </div>
+									  <div class="gh-option" id="checkinout-option">
+									  	<span class="label label-primary col-xs-4">체크인/체크아웃</span>
+									  	<div class="msg col-xs-8" ><span class="time" id="checkin"></span> 
+									  	/<span class="time" id="checkout"></span> 
+									    </div>
+									  </div>
+									  <div class="gh-option" id="bf-option">
+									    <span class="label label-primary col-xs-4">조식제공시간</span>
+									  	<div class="msg  col-xs-8" ><span class="time" id="bfstart">15:00</span> 
+									  	~<span class="time" id="bfend">11:00</span> </div>
+									  </div>
+									  <div class="gh-option" id="limitTime-option">
+									    <span class="label label-primary col-xs-4">통금시간</span>
+									  	<div class="msg col-xs-8" ><span class="time" id="limitTime">15:00</span> </div>
+									  </div>
+									  <div class="gh-option" id="parkingLot-option">
+									  	<span class="label label-primary col-xs-4">주차가능</span>
+									  	<div class="msg col-xs-8" ><span class="body" id="parkingLot">3대</span> </div>
+									  </div>
+									</div>
+									  <!--  <span class="label label-default">조식제공</span> -->
+									<!-- 
+									<form class="form-horizontal">
+									  <div class="form-group">
+									    <label class="col-sm-2 control-label">여성전용</label>
+									    <div class="col-sm-10">
+									      <p class="form-control-static">email@example.com</p>
+									    </div>
+									  </div>
+									  <div class="form-group">
+									    <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+									    <div class="col-sm-10">
+									      <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+									    </div>
+									  </div>
+									</form>
+									 -->  
 								</div>
 								<div role="tabpanel" class="tab-pane" id="messages">
 									<div id="searchview">
