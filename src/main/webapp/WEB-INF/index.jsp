@@ -14,6 +14,7 @@
 
 <title>맹지현</title>
 <jsp:include page="/WEB-INF/views/common.jsp"></jsp:include>
+<script type="text/javascript" src="<%= request.getContextPath()%>/resources/js/pagination.js"></script>
 <style type="text/css">
 #map {
 	height: 400px;
@@ -220,6 +221,64 @@ function renderDetail ( ghdetail ) {
 	}
 }
 
+function searchGH ( ghname, pagenum ) {
+	// xxxxx?id=111&pagenum=3
+	var data = {
+		ghname : ghname,
+		pagenum : pagenum
+	};
+	
+	$.get (ctxpath + '/searchGH', data, function( resp ) {
+		  // console.log ( resp );
+		  /*
+		  <search>
+		     <page cur="1" total="2885"/>
+		     <items>
+		        <item>
+		        <item>
+		        ...
+		     </item>
+		  </search>
+		  */
+		  var search = resp.childNodes[0];
+		  
+		  var items = resp.childNodes[0].childNodes[1].childNodes; // array <items></items>
+		  
+		  
+		  var searchHtml = '<ul>';
+		  
+		 var li = '<blockquote><a href="{l}" target="blank">{t}</a></blockquote>';
+		  for ( var i = 0 ; i < items.length; i ++ ) {
+			  var item = items[i]; // each item
+			  var title = item.childNodes[0].childNodes[0].textContent;
+			  var link  = item.childNodes[1].childNodes[0].textContent;
+			  var desc  = item.childNodes[2].childNodes[0].textContent;
+			  // console.log ( title, link, desc );
+			  searchHtml += li.replace('{l}', link).replace('{t}', title);
+		  }
+		  searchHtml += '</ul>';
+		  $('#searchview').empty().append( searchHtml );
+		  
+		  /**/
+		  var page = search.childNodes[0];
+		  var cur = page.getAttribute("cur");
+		  var total = page.getAttribute('total');
+		  
+		  var x = Pagenation(parseInt(total), 10, 5);
+		  var pgn = x.getPagination( parseInt(cur) );
+		  var li = "<li><a href='#'>{}</a></li>"
+		  $('#pgnation .pagination').empty();
+		  for (var idx = pgn.start; idx < pgn.end; idx++){
+			  $('#pgnation .pagination').append( li.replace('{}', idx + 1) );
+		  }		  
+		  console.log ( pgn );
+		  
+		  $('#search-prev').data('pagenum', pgn.prev ); // < xxx data-pagenum="0"
+		  
+		  $('#search-next').data('pagenum', pgn.next ); // <xxx data-pagenum="2"
+		  
+	  });
+}
 $(document).ready ( function() {
 	$('a[href="#profile"]').on('shown.bs.tab', function(e) {
 		console.log ( '상세정보 봅시다');
@@ -243,26 +302,20 @@ $(document).ready ( function() {
 		    </ul>
 		  */
 		  var ghname = activeGh.name;
-		  $.get (ctxpath + '/searchGH?ghname=' + ghname, function( resp ) {
-			  // console.log ( resp );
-			  var search = resp.childNodes[0];
-			  var items = search.childNodes; // array
-			  var searchHtml = '<ul>';
-			  
-			 var li = '<blockquote><a href="{l}" target="blank">{t}</a></blockquote>';
-			  for ( var i = 0 ; i < items.length; i ++ ) {
-				  var item = items[i]; // each item
-				  var title = item.childNodes[0].childNodes[0].textContent;
-				  var link  = item.childNodes[1].childNodes[0].textContent;
-				  var desc  = item.childNodes[2].childNodes[0].textContent;
-				  // console.log ( title, link, desc );
-				  searchHtml += li.replace('{l}', link).replace('{t}', title);
-			  }
-			  searchHtml += '</ul>';
-			  $('#searchview').empty().append( searchHtml );
-		  });
+		  var pagenum = 1;
+		  searchGH( ghname, pagenum );
+		  
 	});
 	
+	$('#search-prev').on('click', function( ){
+		// data-pagenum 
+		searchGH(activeGh.name, parseInt($(this).data('pagenum')) );
+	})
+	
+	$('#search-next').on('click', function(){
+		console.log( $(this).data('pagenum') );
+		searchGH(activeGh.name, parseInt($(this).data('pagenum')) );
+	})
 	$('#search-input').on('keyup', function(evt) {
 		if ( evt.keyCode == 13 ) {
 			var searchWord =  $(evt.target).val();
@@ -413,13 +466,21 @@ $(document).ready ( function() {
 								<div role="tabpanel" class="tab-pane" id="messages">
 									<div id="searchview">
 										<!-- UI Object -->
-    <ul>
-    <li>
-   	검색중
-    </li>
-    </ul>
-</div>
-<!-- //UI Object -->
+									    <ul>
+									    <li>
+									   	검색중
+									    </li>
+									    </ul>
+									</div>
+								    <div id=pgnation>
+								    	<a href="#" class="btn btn-danger previous" id="search-prev" data-pagenum="0">이전</a>
+								    	<ul class="pagination">
+								    		
+								    	</ul>
+								    	<a href="#" class="btn btn-danger next" id="search-next" data-pagenum="0">다음</a>
+								    </div>
+									
+									<!-- //UI Object -->
 										
 									</div>
 								</div>

@@ -123,12 +123,13 @@ public class GuestController {
 	private SearchService ghService ; // = new SearchService();
 	
 	@RequestMapping(value="/searchGH", method=RequestMethod.GET, produces="text/xml;charset=utf-8")
-	public @ResponseBody String searchGH( @RequestParam(value="ghname") String ghName ) {
+	public @ResponseBody String searchGH( @RequestParam(value="ghname") String ghName, @RequestParam Integer pagenum ) {
 //	public String searchGH( HttpServletRequest req ) {
 //		String ghName = req.getParameter("ghname");
 		System.out.println("gh: " + ghName);
+		System.out.println("page: " + pagenum);
 		
-		String xml = ghService.searchGH(ghName);
+		String xml = ghService.searchGH(ghName, pagenum);
 		return xml ;
 	}
 	
