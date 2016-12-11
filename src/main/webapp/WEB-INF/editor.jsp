@@ -141,6 +141,7 @@ $(document).ready ( function (){
 		  <option value="2">올레길2코스</option>
 		  <option value="3">올레길3코스</option>
 		  <option value="4">올레길4코스</option>
+		  <option value="5">올레길5코스</option>
 		</select>
 	    <button onclick="selectOverlay('MARKER')">마커</button>
 	    <button onclick="selectOverlay('POLYLINE')">선</button>
