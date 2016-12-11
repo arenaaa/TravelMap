@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-
+<meta name="referrer" content="no-referrer" />
 
 <title>맹지현</title>
 <jsp:include page="/WEB-INF/views/common.jsp"></jsp:include>
@@ -129,6 +129,16 @@ h3.gh-title {
 #pgnation {
 	text-align: center;
 }
+
+.search-image {
+	display: table-cell;
+	padding-right: 10px;
+}
+
+.search-detail {
+	display: table-cell;
+	vertical-align: top;
+}
 /*
 .fixed_img_row ul{margin:0;padding:0;font-size:12px;font-family:Tahoma, Geneva, sans-serif;list-style:none}
 .fixed_img_row li{position:relative;margin:0 0 -1px 0;padding:15px 0 15px 135px;border:1px solid #eee;border-left:0;border-right:0;vertical-align:top;*zoom:1}
@@ -173,6 +183,17 @@ h3.gh-title {
 	display: none;
 }
 </style>
+<script type="text/template" id="search-item-li">
+<li class="list-group-item search-item">
+	<a href="#" class="search-image">
+		<img src="{img_link}">
+	</a>
+	<div class="search-detail">
+		<a href="{blog_link}" target="blank">{title}</a>
+	</div>
+</li>
+</script>
+
 <script type="text/javascript">
 var ctxpath = '<%=request.getContextPath()%>';
 function enableRating() {
@@ -253,16 +274,24 @@ function searchGH ( ghname, pagenum ) {
 		  var items = resp.childNodes[0].childNodes[1].childNodes; // array <items></items>
 		  
 		  
-		  var searchHtml = '<ul>';
+		  var searchHtml = '<ul class="list-group">';
 		  
-		 var li = '<blockquote><a href="{l}" target="blank">{t}</a></blockquote>';
+		 var li = $('#search-item-li').text();//'<li><div>[**]</div><div><a href="{l}" target="blank">{t}</a></div></li>';
 		  for ( var i = 0 ; i < items.length; i ++ ) {
 			  var item = items[i]; // each item
 			  var title = item.childNodes[0].childNodes[0].textContent;
 			  var link  = item.childNodes[1].childNodes[0].textContent;
 			  var desc  = item.childNodes[2].childNodes[0].textContent;
+			  var images = item.childNodes[3].childNodes;
+			  var img0Url = '#?' ; 
+			  if ( images.length > 0 ){
+				img0Url = images[0].textContent;
+			  }
+			  var thumnailUrl = img0Url.substring(0, img0Url.lastIndexOf("?"));
 			  // console.log ( title, link, desc );
-			  searchHtml += li.replace('{l}', link).replace('{t}', title);
+			  searchHtml += li.replace('{img_link}', thumnailUrl)
+			                  .replace('{blog_link}', link)
+			  				  .replace('{title}', title);
 		  }
 		  searchHtml += '</ul>';
 		  $('#searchview').empty().append( searchHtml );
@@ -481,7 +510,7 @@ $(document).ready ( function() {
 								<div role="tabpanel" class="tab-pane" id="messages">
 									<div id="searchview">
 										<!-- UI Object -->
-									    <ul>
+									    <ul class="list-group">
 									    <li>
 									   	검색중
 									    </li>
@@ -512,12 +541,9 @@ $(document).ready ( function() {
 			<!--  <input type="text" id="search-input" class="form-control"> -->
 			  <!-- Table -->
 			<!-- <tr><td><a href="#" class="gh-name" data-gh="{id}" data-lat="{lat}" data-lng="{lng}">{name}</a></td></tr> -->
-            <table class="table" id="search-tbl">
-            </table>
+       <table class="table" id="search-tbl">
+       </table>
 			
-			
-
-		</div>
 	</div>
 </body>
 <!-- Custom Theme JavaScript -->
