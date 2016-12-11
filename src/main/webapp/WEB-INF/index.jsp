@@ -121,6 +121,14 @@ h3.gh-title {
 	padding : 0 10px;
 }
 
+.pagination {
+    padding: 0 ;
+    overflow: visible;
+}
+
+#pgnation {
+	text-align: center;
+}
 /*
 .fixed_img_row ul{margin:0;padding:0;font-size:12px;font-family:Tahoma, Geneva, sans-serif;list-style:none}
 .fixed_img_row li{position:relative;margin:0 0 -1px 0;padding:15px 0 15px 135px;border:1px solid #eee;border-left:0;border-right:0;vertical-align:top;*zoom:1}
@@ -268,14 +276,21 @@ function searchGH ( ghname, pagenum ) {
 		  var pgn = x.getPagination( parseInt(cur) );
 		  var li = "<li><a href='#'>{}</a></li>"
 		  $('#pgnation .pagination').empty();
-		  for (var idx = pgn.start; idx < pgn.end; idx++){
+		  for (var idx = pgn.start; idx <= pgn.end; idx++){
 			  $('#pgnation .pagination').append( li.replace('{}', idx + 1) );
 		  }		  
 		  console.log ( pgn );
-		  
-		  $('#search-prev').data('pagenum', pgn.prev ); // < xxx data-pagenum="0"
-		  
-		  $('#search-next').data('pagenum', pgn.next ); // <xxx data-pagenum="2"
+		  if ( pgn.prev < 0 ) {
+		 	  $('#search-prev').data('pagenum', pgn.prev + 1 ).addClass('disabled'); // < xxx data-pagenum="0"
+		  } else {
+		 	  $('#search-prev').data('pagenum', pgn.prev + 1 ).removeClass('disabled'); // < xxx data-pagenum="0"
+		  }
+
+		  if ( pgn.next < 0 ) {
+			  $('#search-next').data('pagenum', pgn.next + 1 ).addClass('disabled'); // <xxx data-pagenum="2"
+		  } else {
+			  $('#search-next').data('pagenum', pgn.next + 1 ).removeClass('disabled'); // <xxx data-pagenum="2"
+		  }
 		  
 	  });
 }
@@ -620,7 +635,7 @@ $(document).ready ( function() {
 		
 		var ollehCtrl = document.createElement('div');
 		map.controls[google.maps.ControlPosition.TOP].push(ollehCtrl);
-		var ollehSelect = $('<select class="form-control"><option>올레길선택</option><option value="1">올레길 1코스</option><option value="2">올레길 2코스</option></select>');
+		var ollehSelect = $('<select class="form-control"><option>올레길선택</option><option value="1">올레길 1코스</option><option value="2">올레길 2코스</option><option value="3">올레길 3코스</option><option value="4">올레길 4코스</option><option value="5">올레길 5코스</option></select>');
 		ollehCtrl.appendChild ( ollehSelect[0] );
 		
 		ollehSelect.change(function () {
